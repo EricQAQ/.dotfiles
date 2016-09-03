@@ -8,8 +8,12 @@ HomeBrew:
 
 brew install pip
 brew install golang
+brew install gotags
+brew install ctags
 
 pip install flake8
+pip install pyflakes
+pip install pep8
 pip install neovim
 pip install virtualenv
 pip install jedi
@@ -43,11 +47,27 @@ $ cp .tmux/.tmux.conf.local .
 ## 4. Rust
 1. 安装Rustup
 ```curl https://sh.rustup.rs -sSf | sh```
+
 2. 安装racer
 ```cargo install racer```
 
 
-## 5. neovim
+## 5. go
+安装部分工具
+```
+$ go get github.com/golang/lint
+$ go install github.com/golang/lint
+
+go get -u github.com/nsf/gocode
+go get golang.org/x/tools/cmd/goimports
+
+go get -v code.google.com/p/rog-go/exp/cmd/godef
+go install -v code.google.com/p/rog-go/exp/cmd/godef
+
+go get -u github.com/kisielk/errcheck
+```
+
+## 6. neovim
 1. 安装
 ```brew install neovim```
 2. 使用dotfiles的`nvim/init.vim`替换.config/nvim/init.vim
@@ -61,7 +81,8 @@ cd ~/.config/nvim/plugged/YouCompleteMe
 ./install.py --gocode-completer --racer-completer
 cmake -G "Unix Makefiles" . ~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp
 
-##6. 字体
+
+## 7. 字体
 ```
 git clone https://github.com/powerline/fonts.git
 cd fonts/

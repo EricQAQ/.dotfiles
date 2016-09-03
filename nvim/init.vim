@@ -2,6 +2,8 @@ set encoding=utf-8
 " 显式设置当前脚本的编码方式以支持多字节字符
 scriptencoding utf-8
 
+let g:python_host_prog='/usr/local/bin/python'
+
 " 设置leader键
 let mapleader=";"
 
@@ -126,6 +128,8 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+let g:go_list_type = "quickfix"
+
 " go run相关配置
 au FileType go nmap <leader>rt <Plug>(go-run-tab)
 au FileType go nmap <Leader>rs <Plug>(go-run-split)
@@ -168,7 +172,7 @@ Plug 'scrooloose/nerdtree'
 
 map <C-n> :NERDTreeToggle<CR>
 
-let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '.pyc$']
+let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '.pyc$', '__pycache__']
 let NERDTreeSortOrder                 = ['\/$', '*']
 let NERDTreeWinPos                    = 'left'
 let NERDTreeWinSize                   = 20
@@ -266,6 +270,34 @@ let g:tagbar_width=30	"窗口宽度的设置
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
 " XML
 Plug 'othree/xml.vim'
 
@@ -279,6 +311,11 @@ Plug 'racer-rust/vim-racer'
 
 " 语法检查
 Plug 'scrooloose/syntastic'
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
 " 每次保存的时候做检查
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 1
@@ -286,8 +323,12 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_error_symbol='✗'
 " 设置警告符号
 let g:syntastic_warning_symbol='⚠'
+" python语法检查
 let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-let g:syntastic_python_checkers=['pyflakes', 'flake8', 'pep8']
+let g:syntastic_python_checkers=['flake8', 'pyflakes', 'pep8']
+" go语法检查
+let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust'] }
 
 " 高亮
 let g:syntastic_enable_highlighting=1
