@@ -10,6 +10,7 @@ brew install pip
 brew install golang
 brew install gotags
 brew install ctags
+brew install python
 
 pip install flake8
 pip install pyflakes
@@ -18,6 +19,7 @@ pip install neovim
 pip install virtualenv
 pip install jedi
 ```
+注意设置brew安装的python为默认python(替换掉mac系统自带的python)
 
 ## 2. oh-my-zsh
 
@@ -97,3 +99,14 @@ pip install jedi
   ```
 把终端字体换成xxx for powerline
 
+--
+**如果neovim在tmux下设置的C-h无法切换窗口，请在终端中输入：**
+
+```
+> infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+> tic $TERM.ti
+```
+
+附: 特殊字符集(需要安装好powerline的字体, 即xxx for powerline)  
+http://tw.piliapp.com/symbol/  
+该链接下的特殊字符可以用来替换掉syntastic的语法错误|警告符号, 风格错误|警告符号, 以及状态栏的各种符号
