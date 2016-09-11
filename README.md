@@ -11,6 +11,8 @@ brew install golang
 brew install gotags
 brew install ctags
 brew install python
+brew install tmux
+brew install the_silver_searcher    # Ag用来加快全文搜索速度
 
 pip install flake8
 pip install pyflakes

@@ -21,6 +21,30 @@ let $RUST_SRC_PATH = "/Users/eric/rustc-1.10.0/src"
 " 语法高亮
 syntax on
 
+" 代码折叠
+set foldenable
+" 折叠方法
+" manual    手工折叠
+" indent    使用缩进表示折叠
+" expr      使用表达式定义折叠
+" syntax    使用语法定义折叠
+" diff      对没有更改的文本进行折叠
+" marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
+set foldmethod=indent
+set foldlevel=99
+" 代码折叠自定义快捷键 <leader>zz
+let g:FoldMethod = 0
+map <leader>z :call ToggleFold()<cr>
+fun! ToggleFold()
+    if g:FoldMethod == 0
+        exe "normal! zM"
+        let g:FoldMethod = 1
+    else
+        exe "normal! zR"
+        let g:FoldMethod = 0
+    endif
+endfun
+
 " smart indent
 set smartindent
 " 打开自动缩进
@@ -84,10 +108,14 @@ if has("autocmd")
 endif
 
 " ctrl-c 复制, ctrl-v 粘贴, ctrl-x 剪切, ctrl-a 全选
-map <C-c> y  
-map <C-X> d
-map <C-v> p
-map <C-A> <Esc>ggVG  
+" map <C-c> y  
+" map <C-X> d
+" map <C-v> p
+" map <C-A> <Esc>ggVG 
+
+" 复制到剪切板
+vmap <C-c> "*y
+vmap <C-v> "*p
 
 " ##############分屏##############
 " 分屏窗口移动, Smart way to move between windowsmap <C-j> <C-W>j
@@ -145,6 +173,8 @@ Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/sy
 Plug 'Valloric/YouCompleteMe'
 " YouCompleteMe {{{
 " let g:ycm_python_binary_path = 'python'
+" let g:ycm_key_list_select_completion = ['<Tab>']
+" let g:ycm_key_list_previous_completion = ['<A-T>']
 let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
 let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
 let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
@@ -153,7 +183,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符�
 let g:ycm_seed_identifiers_with_syntax=1
 " 跳转到定义处, 分屏打开
 let g:ycm_goto_buffer_command = 'horizontal-split'
-nnoremap jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap ud :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap gd :YcmCompleter GoToDeclaration<CR>
 
 " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
@@ -242,6 +272,7 @@ let g:lightline = {
 
 " 查找文件名, 支持模糊匹配
 Plug 'ctrlpvim/ctrlp.vim'
+let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_cmd = 'CtrlP'
 map <leader>f :CtrlPMRU<CR>
@@ -369,10 +400,10 @@ Plug 'docunext/closetag.vim'
 " 快速跳转
 Plug 'easymotion/vim-easymotion'
 let g:EasyMotion_smartcase = 1
-map <Leader><leader>h <Plug>(easymotion-linebackward)
-map <Leader><leader>j <Plug>(easymotion-j)
-map <Leader><leader>k <Plug>(easymotion-k)
-map <Leader><leader>l <Plug>(easymotion-lineforward)
+map <Leader>h <Plug>(easymotion-linebackward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>l <Plug>(easymotion-lineforward)
 " 重复上一次操作, 类似repeat插件, 很强大
 map <Leader><leader>. <Plug>(easymotion-repeat)
 
