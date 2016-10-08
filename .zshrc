@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/eric/.oh-my-zsh
+
 # let g:solarized_termcolors=16
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -85,6 +86,7 @@ source $ZSH/oh-my-zsh.sh
 #
 #alias vim='/usr/local/Cellar/vim/7.4.2033/bin/vim'
 alias vim='/usr/local/bin/nvim'
+# alias tmux='TERM=xterm-256color /usr/bin/tmux -2'
 alias tmux='tmux -2'
 export RUST_SRC_HOME=/Users/eric/rustc-1.10.0/src
 # export RUST_SRC_PATH = $RUST_SRC_HOME/
@@ -94,5 +96,8 @@ export GOPATH="$HOME/go_code"
 export PATH=$(cat /etc/paths | xargs | tr " " :)
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+tic $TERM.ti
 #export PATH="/Users/Eric/Library/Python/2.7/bin:$PATH"
 #. /Users/eric/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh

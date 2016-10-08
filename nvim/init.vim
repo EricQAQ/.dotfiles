@@ -1,6 +1,8 @@
-set encoding=utf-8
 " 显式设置当前脚本的编码方式以支持多字节字符
 scriptencoding utf-8
+set encoding=utf-8
+
+let t_Co = 256
 
 let g:python_host_prog='/usr/local/bin/python'
 
@@ -19,7 +21,11 @@ let $RUST_SRC_PATH = "/Users/eric/rustc-1.10.0/src"
 
 
 " 语法高亮
-syntax on
+syntax enable
+
+set guioptions-=r
+set guioptions-=L
+set guioptions-=b
 
 " 代码折叠
 set foldenable
@@ -32,7 +38,7 @@ set foldenable
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
 set foldmethod=indent
 set foldlevel=99
-" 代码折叠自定义快捷键 <leader>zz
+" 代码折叠自定义快捷键 <leader>z
 let g:FoldMethod = 0
 map <leader>z :call ToggleFold()<cr>
 fun! ToggleFold()
@@ -135,17 +141,23 @@ vnoremap > >gv
 " 去掉搜索高亮
 noremap <leader>/ :nohls<CR>
 
-let python_highlight_all = 1
+" 括号跳转
+noremap <C-g> %
 
 call plug#begin()
 
 " Google Material 主题
-Plug 'jdkanani/vim-material-theme'
+" Plug 'jdkanani/vim-material-theme'
+" Plug 'morhetz/gruvbox'
+Plug 'tomasr/molokai'
 
 " python支持
 Plug 'davidhalter/jedi-vim'
-Plug 'hdima/python-syntax'
-" let python_highlight_all = 1 
+Plug 'kh3phr3n/python-syntax'
+" let python_highlight_all = 1
+let python_self_cls_highlight = 1
+let python_no_parameter_highlight = 1
+let python_no_operator_highlight = 1
 
 " golang支持
 Plug 'fatih/vim-go'
@@ -347,9 +359,11 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-" 每次保存的时候做检查
+" 每次自动调用:SyntasticSetLocList, 将错误覆盖
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list = 1
+" 自动拉起|关闭错误窗口，不需要手动调用:Errors
+let g:syntastic_auto_loc_list = 0
+" 每次保存的时候做检查
 let g:syntastic_check_on_wq = 1
 let g:syntastic_check_on_open = 1
 " 设置错误符号
@@ -368,6 +382,18 @@ let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python
 
 " 高亮
 let g:syntastic_enable_highlighting=1
+
+" 合并错误输出
+let g:syntasitc_aggregate_errors = 1
+
+" 调出错误框
+nmap <leader>e :Errors<CR>
+" 关闭错误框
+nmap <leader>w :lclose<CR>
+" 跳转到下一个错误
+nmap <leader>[ :lnext<CR>
+" 跳转到上一个错误
+nmap <leader>] :lprevious<CR>
 
 " JSON
 Plug 'elzr/vim-json', {'for': 'json'}
@@ -416,11 +442,13 @@ nnoremap <leader>gs :GitGutterToggle<CR>
 nmap ]n <Plug>GitGutterNextHunk
 nmap [n <Plug>GitGutterPrevHunk
 
+" 缩进指示
+Plug 'Yggdroot/indentLine'
+let g:indentLine_char = '┆'
+let g:indentLine_enabled = 1
+
 call plug#end()
 
-" 主题
-set background=dark
-colorscheme material-theme
 
 " TODO: 设置内置终端的颜色
 let g:terminal_color_0  = '#282a36'
@@ -440,8 +468,7 @@ let g:terminal_color_13 = '#ad7fa8'
 let g:terminal_color_14 = '#00f5e9'
 let g:terminal_color_15 = '#eeeeec'
 
-" ############语言############
-" pythonsyntax {{{
-let python_highlight_all = 1
-" }}}
-
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set background=dark
+colorscheme molokai
+" colorscheme gruvbox

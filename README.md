@@ -31,7 +31,7 @@ pip install jedi
   ```
 
 2. 配置
-使用dotfiles的`.zshrc`文件替换原有文件
+  使用dotfiles的`.zshrc`文件替换原有文件
 
 3. 设置
   ```

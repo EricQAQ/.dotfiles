@@ -1,5 +1,5 @@
 # (‑●‑●)> released under the WTFPL v2 license, by Gregory Pakosz (@gpakosz)
-
+set -g default-terminal "screen-256color"
 # use the powerline patched font variant of the theme, possible values are:
 #   - default
 #   - powerline
@@ -125,4 +125,3 @@ unbind '%'
 
 unbind C-b
 
-set -g mode-mouse on
