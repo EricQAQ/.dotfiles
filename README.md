@@ -13,6 +13,7 @@ brew install ctags
 brew install python
 brew install tmux
 brew install the_silver_searcher    # Ag用来加快全文搜索速度
+brew install autojump
 
 pip install flake8
 pip install pyflakes
@@ -31,7 +32,9 @@ pip install jedi
   ```
 
 2. 配置
-  使用dotfiles的`.zshrc`文件替换原有文件
+
+  1. 使用dotfiles的`.zshrc`文件替换原有文件
+  2. 把`.dotfiles/erica.zsh-theme`文件拷贝至`oh-my-zsh`源码的`theme`文件夹中, mac中的路径是`~/.oh-my-zsh/theme/`
 
 3. 设置
   ```
