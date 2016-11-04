@@ -45,6 +45,13 @@
 1. `ctrl-f`: 向下翻页
 2. `ctrl-b`: 向上翻页
 
+## 调出错误提示项
+1. `<leader>e`: 调出错误提示项
+2. `<leader>w`: 关闭错误提示项
+
+## taglist
+`<F9>`: 打开/关闭taglist
+
 ## 在两个vim中复制与粘贴
 1. `"*y` or `ctrl-c`: 从vim中复制到剪切板
 2. `"*p` or `ctrl-v`: 从剪切板粘贴到vim中

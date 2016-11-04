@@ -27,6 +27,7 @@ pip install jedi
 ## 2. oh-my-zsh
 
 1. 安装
+
   ```
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   ```
@@ -37,6 +38,7 @@ pip install jedi
   2. 把`.dotfiles/erica.zsh-theme`文件拷贝至`oh-my-zsh`源码的`theme`文件夹中, mac中的路径是`~/.oh-my-zsh/theme/`
 
 3. 设置
+
   ```
   # 为root用户修改默认shell为zsh
   chsh -s /bin/zsh root
@@ -46,6 +48,7 @@ pip install jedi
 
 
 ## 3. .tmux
+
   ```
   $ cd
   $ rm -rf .tmux
@@ -53,19 +56,22 @@ pip install jedi
   $ ln -s .tmux/.tmux.conf
   $ cp .tmux/.tmux.conf.local .
   ```
-使用dotfiles的`.tmux.conf.local`替换这里的.tmux.conf/local文件
+使用dotfiles的`.tmux.conf.local`替换这里的`.tmux.conf/local`文件
 
 
 ## 4. Rust
 1. 安装Rustup
+
   ```curl https://sh.rustup.rs -sSf | sh```
 
 2. 安装racer
+
   ```cargo install racer```
 
 
 ## 5. go
 安装部分工具
+
   ```
   $ go get github.com/golang/lint
   $ go install github.com/golang/lint
@@ -81,14 +87,17 @@ pip install jedi
 
 ## 6. neovim
 1. 安装
+
   ```brew install neovim```
-2. 使用dotfiles的`nvim/init.vim`替换.config/nvim/init.vim
+2. 使用dotfiles的`nvim/init.vim`替换`.config/nvim/init.vim`
 3. 安装相应插件
+
   ```
   nvim
   :PlugInstall
   ```
 4. YouCompleteMe
+
   ```
   cd ~/.config/nvim/plugged/YouCompleteMe
   ./install.py --gocode-completer --racer-completer
@@ -97,6 +106,7 @@ pip install jedi
 
 
 ## 7. 字体
+
   ```
   git clone https://github.com/powerline/fonts.git
   cd fonts/

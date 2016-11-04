@@ -19,6 +19,11 @@ let $RUST_SRC_PATH = "/Users/eric/rustc-1.10.0/src"
 " let $RUST_SRC_PATH = "<path-to-rust-srcdir>/src/"
 " }}}
 
+" 模式切换修改
+inoremap <C-q> <ESC>
+nnoremap <C-q> <ESC>
+vnoremap <C-q> <ESC>
+cnoremap <C-q> <ESC>
 
 " 语法高亮
 syntax enable
@@ -394,6 +399,9 @@ nmap <leader>w :lclose<CR>
 nmap <leader>[ :lnext<CR>
 " 跳转到上一个错误
 nmap <leader>] :lprevious<CR>
+
+" 放大vim中的一个窗口
+Plug 'troydm/zoomwintab.vim'
 
 " JSON
 Plug 'elzr/vim-json', {'for': 'json'}
