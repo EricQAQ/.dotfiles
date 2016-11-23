@@ -156,6 +156,17 @@ call plug#begin()
 " Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
 
+" 有道翻译
+Plug 'ianva/vim-youdao-translater'
+vnoremap <silent> <C-T> :<C-u>Ydv<CR>
+nnoremap <silent> <C-T> :<C-u>Ydc<CR>
+noremap <leader>yd :<C-u>Yde<CR>
+
+" Dash支持
+Plug 'rizzatti/dash.vim'
+nmap <silent> <leader>t <Plug>DashSearch
+nmap <silent> <leader>y <Plug>DashGlobalSearch
+
 " python支持
 Plug 'davidhalter/jedi-vim'
 Plug 'kh3phr3n/python-syntax'
@@ -311,12 +322,27 @@ nmap <leader>o :CtrlSFOpen<CR>
 nmap ss :CtrlSF <C-R><C-W><CR>
 vnoremap ss y:CtrlSF <C-R>"<CR>
 let g:ctrlsf_default_root = 'project'
+
 " 显示文件中的类、函数、变量
 Plug 'majutsushi/tagbar'
 nmap <F9> :TagbarToggle<CR>
 let g:tagbar_width=30	"窗口宽度的设置
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
+
+let g:tagbar_type_rust = {
+\ 'ctagstype' : 'rust',
+\ 'kinds' : [
+    \'T:types,type definitions',
+    \'f:functions,function definitions',
+    \'g:enum,enumeration names',
+    \'s:structure names',
+    \'m:modules,module names',
+    \'c:consts,static constants',
+    \'t:traits,traits',
+    \'i:impls,trait implementations',
+\]
+\ }
 
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',

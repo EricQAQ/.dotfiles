@@ -103,6 +103,8 @@ pip install jedi
   ./install.py --gocode-completer --racer-completer
   cmake -G "Unix Makefiles" . ~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp
   ```
+5. Tagbar支持Rust
+    把`.ctags`文件拷贝到用户目录下(`~`)
 
 
 ## 7. 字体
