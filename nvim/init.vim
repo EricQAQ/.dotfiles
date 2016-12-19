@@ -9,16 +9,6 @@ let g:python_host_prog='/usr/local/bin/python'
 " 设置leader键
 let mapleader=";"
 
-" ##########rust设置###########
-" {{{
-let g:rustfmt_autosave = 1
-set hidden
-" let g:racer_cmd = "<path-to-racer>/target/release/racer"
-let g:racer_cmd = "/Users/eric/.cargo/bin/racer"
-let $RUST_SRC_PATH = "/Users/eric/rustc-1.10.0/src"
-" let $RUST_SRC_PATH = "<path-to-rust-srcdir>/src/"
-" }}}
-
 " 模式切换修改
 inoremap <C-q> <ESC>
 nnoremap <C-q> <ESC>
@@ -162,6 +152,16 @@ vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
 
+" rst语法支持
+Plug 'Rykka/riv.vim'
+
+" 命令行浏览器
+Plug 'yuratomo/w3m.vim'
+noremap <leader>m :W3m
+let g:w3m#lang = 'zh_CN'
+" let g:w3m#option = '-o display_charset=utf-8 -halfdump -o frame=true -o ext_halfdump=1 -o strict_iso2022=0 -o ucs_conv=1'
+
+
 " Dash支持
 Plug 'rizzatti/dash.vim'
 nmap <silent> <leader>t <Plug>DashSearch
@@ -174,6 +174,18 @@ Plug 'kh3phr3n/python-syntax'
 let python_self_cls_highlight = 1
 let python_no_parameter_highlight = 1
 let python_no_operator_highlight = 1
+
+" Rust支持
+Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+" Rust自动补全, racer
+Plug 'racer-rust/vim-racer'
+set hidden
+let g:racer_cmd = "~/.cargo/bin/racer"
+let $RUST_SRC_PATH = 
+    \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+" 显示函数定义
+let g:racer_experimental_completer = 1
 
 " golang支持
 Plug 'fatih/vim-go'
@@ -211,8 +223,8 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符�
 let g:ycm_seed_identifiers_with_syntax=1
 " 跳转到定义处, 分屏打开
 let g:ycm_goto_buffer_command = 'horizontal-split'
-nnoremap ud :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap gd :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>ud :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
 " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 " old version
@@ -300,7 +312,6 @@ let g:lightline = {
 
 " 查找文件名, 支持模糊匹配
 Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_cmd = 'CtrlP'
 map <leader>f :CtrlPMRU<CR>
@@ -317,6 +328,7 @@ let g:ctrlp_follow_symlinks=1
 
 " 全局搜索某个特定的字符
 Plug 'dyng/ctrlsf.vim'
+let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
 nmap <leader>s :CtrlSF
 nmap <leader>o :CtrlSFOpen<CR>
 nmap ss :CtrlSF <C-R><C-W><CR>
@@ -377,11 +389,6 @@ Plug 'othree/xml.vim'
 
 " HTML
 Plug 'othree/html5.vim'
-
-" Rust
-Plug 'rust-lang/rust.vim'
-" Rust自动补全, racer
-Plug 'racer-rust/vim-racer'
 
 " 语法检查
 Plug 'scrooloose/syntastic'

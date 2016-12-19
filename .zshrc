@@ -50,7 +50,7 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting urltools autojump)
+plugins=(git zsh-syntax-highlighting urltools autojump brew chucknorris)
 
 # User configuration
 
@@ -86,10 +86,10 @@ source $ZSH/oh-my-zsh.sh
 #
 #alias vim='/usr/local/Cellar/vim/7.4.2033/bin/vim'
 alias vim='/usr/local/bin/nvim'
-# alias tmux='TERM=xterm-256color /usr/bin/tmux -2'
 alias tmux='tmux -2'
-export RUST_SRC_HOME=/Users/eric/rustc-1.10.0/src
-# export RUST_SRC_PATH = $RUST_SRC_HOME/
+export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+
+export CARGO_HOME="/Users/eric/.cargo"
 
 export GOPATH="$HOME/go_code"
 
@@ -101,3 +101,5 @@ infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 tic $TERM.ti
 #export PATH="/Users/Eric/Library/Python/2.7/bin:$PATH"
 #. /Users/eric/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+fortune -s | cowsay | lolcat
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
