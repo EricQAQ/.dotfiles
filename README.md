@@ -64,9 +64,28 @@ pip install jedi
 
   ```curl https://sh.rustup.rs -sSf | sh```
 
-2. 安装racer
+2. 安装cargo, rust
+
+  ```
+  $ rustup install rustc
+  $ rustup install cargo
+  ```
+
+3. 使用rustup装rust源码(必须)
+
+  ```$ rustup component add rust-src```
+
+4. 安装racer
+  由于cargo换成了USTC的源(国外太慢), 使用下面的方法安装racer, 不能补全三方库
 
   ```cargo install racer```
+
+  如果需要补全三方库, 请编译安装racer:
+
+  1. git clone git@github.com:EricQAQ/racer.git
+  2. 切换到racer目录，checkout use-ustc-mirror-for-cargo
+  3. cargo build --release
+  4. cp target/release/racer ~/.cargo/bin/
 
 
 ## 5. go
