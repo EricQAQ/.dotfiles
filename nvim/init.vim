@@ -212,9 +212,10 @@ Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/sy
 " 自动补全
 Plug 'Valloric/YouCompleteMe'
 " YouCompleteMe {{{
-" let g:ycm_python_binary_path = 'python'
-" let g:ycm_key_list_select_completion = ['<Tab>']
-" let g:ycm_key_list_previous_completion = ['<A-T>']
+let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
+let g:ycm_key_list_previous_completion = ['<C-M>']
+let g:ycm_rust_src_path = 
+    \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
 let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
 let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
@@ -242,7 +243,7 @@ Plug 'scrooloose/nerdtree'
 
 map <C-n> :NERDTreeToggle<CR>
 
-let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '.pyc$', '__pycache__']
+let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '.pyc$', '__pycache__', '.DS_Store', '.cache', '.idea']
 let NERDTreeSortOrder                 = ['\/$', '*']
 let NERDTreeWinPos                    = 'left'
 let NERDTreeWinSize                   = 20
@@ -250,7 +251,7 @@ let NERDTreeChDirMode                 = 2
 let NERDTreeDirArrows                 = 1
 let NERDTreeMinimalUI                 = 1
 let NERDTreeMouseMode                 = 2
-let NERDTreeShowHidden                = 0
+let NERDTreeShowHidden                = 1
 let NERDTreeQuitOnOpen                = 0
 let NERDTreeHijackNetrw               = 1
 let NERDTreeSortHiddenFirst           = 1
@@ -411,12 +412,14 @@ let g:syntastic_warning_symbol='⚠'
 " 设置风格错误|警告符号
 let g:syntastic_style_error_symbol = '➔'
 let g:syntastic_style_warning_symbol = '➜'
+let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust'] }
 " python语法检查
-let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
-let g:syntastic_python_checkers=['flake8', 'pyflakes', 'pep8']
+let g:syntastic_python_checkers=['python', 'flake8', 'pyflakes', 'pep8']
+" let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
 " go语法检查
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust'] }
+" rust语法检查
+let g:syntastic_rust_checkers = ['rustc', 'rustfmt']
 
 " 高亮
 let g:syntastic_enable_highlighting=1
