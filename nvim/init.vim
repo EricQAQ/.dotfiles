@@ -69,7 +69,9 @@ endif
 set autoread
 
 " 禁止过长的行回绕（超过屏幕宽度）
-set nowrap
+" set nowrap
+" 自动折行
+set wrap
 
 " 让水平滚动更加自然
 set sidescroll=1
@@ -155,6 +157,8 @@ noremap <leader>yd :<C-u>Yde<CR>
 " rst语法支持
 Plug 'Rykka/riv.vim'
 
+" thrift语法支持
+Plug 'solarnz/thrift.vim'
 " 命令行浏览器
 Plug 'yuratomo/w3m.vim'
 noremap <leader>m :W3m
@@ -243,7 +247,7 @@ Plug 'scrooloose/nerdtree'
 
 map <C-n> :NERDTreeToggle<CR>
 
-let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '.pyc$', '__pycache__', '.DS_Store', '.cache', '.idea']
+let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea']
 let NERDTreeSortOrder                 = ['\/$', '*']
 let NERDTreeWinPos                    = 'left'
 let NERDTreeWinSize                   = 20
@@ -271,22 +275,153 @@ Plug 'itchyny/lightline.vim'
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
-      \ 'component': {
-      \   'readonly': '%{&readonly?"":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'filename': 'LightlineFilename',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'mode': 'LightlineMode',
+      \   'percent': 'MyLightLinePercent',
+      \   'lineinfo': 'MyLightLineLineInfo'
       \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ 'component_expand': {
+      \   'syntastic': 'SyntasticStatuslineFlag',
+      \ },
+      \ 'component_type': {
+      \   'syntastic': 'error',
       \ },
       \ 'separator': { 'left': '',  'right': ''},
       \ 'subseparator': { 'left': '', 'right': '' }
       \ }
+
+function! MyLightLinePercent()
+  if &ft !=? 'nerdtree' && &ft !=? 'tagbar'
+    return line('.') * 100 / line('$') . '%'
+  else
+    return ''
+  endif
+endfunction
+
+function! MyLightLineLineInfo()
+  if &ft !=? 'nerdtree'
+    return line('.').':'. col('.')
+  else
+    return ''
+  endif
+endfunction
+
+function! LightlineModified()
+  return &ft =~ 'help' ? '' : &modified ? '✎' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help' && &readonly ? '' : ''
+endfunction
+
+function! LightlineFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+        \ fname =~ '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ 'NERD_tree' ? '' :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|NERD' && exists('*fugitive#head')
+      let mark = ''
+      let branch = fugitive#head()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  let fname = expand('%:t')
+  return fname =~ '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlPStatusFunc_1',
+  \ 'prog': 'CtrlPStatusFunc_2',
+  \ }
+
+function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
+  let g:lightline.ctrlp_regex = a:regex
+  let g:lightline.ctrlp_prev = a:prev
+  let g:lightline.ctrlp_item = a:item
+  let g:lightline.ctrlp_next = a:next
+  return lightline#statusline(0)
+endfunction
+
+function! CtrlPStatusFunc_2(str)
+  return lightline#statusline(0)
+endfunction
+
+let g:tagbar_status_func = 'TagbarStatusFunc'
+
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+    let g:lightline.fname = a:fname
+  return lightline#statusline(0)
+endfunction
+
+augroup AutoSyntastic
+  autocmd!
+  autocmd BufWritePost *.c,*.cpp, *.rs call s:syntastic()
+augroup END
+function! s:syntastic()
+  SyntasticCheck
+  call lightline#update()
+endfunction
+
+" let g:vimfiler_force_overwrite_statusline = 0
+" let g:vimshell_force_overwrite_statusline = 0
+let g:unite_force_overwrite_statusline = 0
+
+" let g:lightline = {
+      " \ 'colorscheme': 'wombat',
+      " \ 'active': {
+      " \   'left': [ [ 'mode', 'paste' ],
+      " \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+      " \ },
+      " \ 'component': {
+      " \   'readonly': '%{&readonly?"":""}',
+      " \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      " \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      " \ },
+      " \ 'component_visible_condition': {
+      " \   'readonly': '(&filetype!="help"&& &readonly)',
+      " \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      " \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      " \ },
+      " \ 'separator': { 'left': '',  'right': ''},
+      " \ 'subseparator': { 'left': '', 'right': '' }
+      " \ }
 
 " Airline
 " Plug 'vim-airline/vim-airline'
