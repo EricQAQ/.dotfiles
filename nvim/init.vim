@@ -147,6 +147,10 @@ call plug#begin()
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
+Plug 'liuchengxu/space-vim-dark'
+if (has("termguicolors"))
+  set termguicolors
+endif
 
 " 有道翻译
 Plug 'ianva/vim-youdao-translater'
@@ -157,6 +161,9 @@ noremap <leader>yd :<C-u>Yde<CR>
 " rst语法支持
 Plug 'Rykka/riv.vim'
 
+" dockerfile语法支持
+Plug 'ekalinin/Dockerfile.vim'
+
 " thrift语法支持
 Plug 'solarnz/thrift.vim'
 " 命令行浏览器
@@ -165,6 +172,29 @@ noremap <leader>m :W3m
 let g:w3m#lang = 'zh_CN'
 " let g:w3m#option = '-o display_charset=utf-8 -halfdump -o frame=true -o ext_halfdump=1 -o strict_iso2022=0 -o ucs_conv=1'
 
+" 欢迎界面
+Plug 'mhinz/vim-startify'
+let g:startify_custom_header = [
+            \'',
+            \'          _____      _           _   _         __     ___            ',
+            \'          | ____|_ __(_) ___     | \ | | ___  __\ \   / (_)_ __ ___  ',
+            \'          |  _| | (__| |/ __|____|  \| |/ _ \/ _ \ \ / /| | -_ ` _ \ ',
+            \'          | |___| |  | | (_|_____| |\  |  __/ (_) \ V / | | | | | | |',
+            \'          |_____|_|  |_|\___|    |_| \_|\___|\___/ \_/  |_|_| |_| |_|',
+            \'                      [ Eric-NeoVim written by Eric Zhang ]',
+            \ ]
+let g:startify_list_order = [
+            \ ['   Recent Files:'],
+            \ 'files',
+            \ ['   Project:'],
+            \ 'dir',
+            \ ['   Sessions:'],
+            \ 'sessions',
+            \ ['   Bookmarks:'],
+            \ 'bookmarks',
+            \ ['   Commands:'],
+            \ 'commands',
+            \ ]
 
 " Dash支持
 Plug 'rizzatti/dash.vim'
@@ -649,5 +679,6 @@ let g:terminal_color_15 = '#eeeeec'
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark
-colorscheme molokai
+" colorscheme molokai
 " colorscheme gruvbox
+colorscheme space-vim-dark
