@@ -120,12 +120,23 @@ endif
 vmap <C-c> "*y
 vmap <C-v> "*p
 
-" ##############分屏##############
-" 分屏窗口移动, Smart way to move between windowsmap <C-j> <C-W>j
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-h> <C-w>h
-map <C-l> <C-w>l
+" Quit normal mode
+nnoremap <Leader>q  :q<CR>
+nnoremap <Leader>Q  :qa!<CR>
+nnoremap <Leader>w  :w<CR>
+nnoremap <Leader>W  :wq<CR>
+
+" ##############分屏移动窗口##############
+" 分屏窗口移动, Smart way to move between windowsmap
+nnoremap <Space>j <C-w>j
+nnoremap <Space>k <C-w>k
+nnoremap <Space>h <C-w>h
+nnoremap <Space>l <C-w>l
+
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
 " nnoremap <C-j> <C-W>j
 " nnoremap <C-k> <C-W>k
 " nnoremap <C-h> <C-W>h
@@ -147,10 +158,15 @@ call plug#begin()
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'morhetz/gruvbox'
 Plug 'tomasr/molokai'
+" emacs dark主题
 Plug 'liuchengxu/space-vim-dark'
 if (has("termguicolors"))
   set termguicolors
 endif
+
+" emoji表情
+Plug 'junegunn/vim-emoji'
+set completefunc=emoji#complete
 
 " 有道翻译
 Plug 'ianva/vim-youdao-translater'
@@ -195,6 +211,17 @@ let g:startify_list_order = [
             \ ['   Commands:'],
             \ 'commands',
             \ ]
+
+" cursor
+Plug 'itchyny/vim-cursorword'
+
+" 光标多选
+Plug 'terryma/vim-multiple-cursors'
+let g:multi_cursor_next_key='<C-j>'
+let g:multi_cursor_prev_key='<C-k>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
 
 " Dash支持
 Plug 'rizzatti/dash.vim'
@@ -650,7 +677,7 @@ let g:syntasitc_aggregate_errors = 1
 " 调出错误框
 nmap <leader>e :Errors<CR>
 " 关闭错误框
-nmap <leader>w :lclose<CR>
+nmap <leader>c :lclose<CR>
 " 跳转到下一个错误
 nmap <leader>[ :lnext<CR>
 " 跳转到上一个错误
@@ -660,7 +687,7 @@ nmap <leader>] :lprevious<CR>
 Plug 'troydm/zoomwintab.vim'
 
 " JSON
-Plug 'elzr/vim-json', {'for': 'json'}
+Plug 'elzr/vim-json'
 
 " Markdown
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
