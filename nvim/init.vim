@@ -133,6 +133,12 @@ nnoremap <Space>k <C-w>k
 nnoremap <Space>h <C-w>h
 nnoremap <Space>l <C-w>l
 
+" 调整窗口大小
+nnoremap <Space>H <C-W>5<
+nnoremap <Space>L <C-W>5>
+nnoremap <Space>J :resize +5<CR>
+nnoremap <Space>K :resize -5<CR>
+
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
@@ -182,6 +188,10 @@ Plug 'ekalinin/Dockerfile.vim'
 
 " thrift语法支持
 Plug 'solarnz/thrift.vim'
+
+" ansible语法支持
+Plug 'pearofducks/ansible-vim'
+
 " 命令行浏览器
 Plug 'yuratomo/w3m.vim'
 noremap <leader>m :W3m
@@ -238,15 +248,24 @@ let python_no_operator_highlight = 1
 
 " Rust支持
 Plug 'rust-lang/rust.vim'
-let g:rustfmt_autosave = 1
+let g:rustfmt_autosave = 0
+au FileType rust nmap rf :RustFmt<CR>
+au FileType rust nmap rr :RustRun<CR>
+
 " Rust自动补全, racer
 Plug 'racer-rust/vim-racer'
 set hidden
 let g:racer_cmd = "~/.cargo/bin/racer"
-let $RUST_SRC_PATH = 
-    \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 " 显示函数定义
 let g:racer_experimental_completer = 1
+" 跳转到定义
+au FileType rust nmap gd <Plug>(rust-def)
+" 跳转到定义, 横屏显示
+au FileType rust nmap gs <Plug>(rust-def-split)
+" 跳转到定义, 竖屏显示
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+" 跳转到文档
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 " golang支持
 Plug 'fatih/vim-go'
@@ -286,7 +305,7 @@ let g:ycm_seed_identifiers_with_syntax=1
 " 跳转到定义处, 分屏打开
 let g:ycm_goto_buffer_command = 'horizontal-split'
 nnoremap <leader>ud :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gs :YcmCompleter GoToDeclaration<CR>
 
 " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 " old version
@@ -586,6 +605,7 @@ let g:ctrlsf_default_root = 'project'
 " 显示文件中的类、函数、变量
 Plug 'majutsushi/tagbar'
 nmap <F9> :TagbarToggle<CR>
+inoremap <F9> <ESC>:TagbarToggle<CR>
 let g:tagbar_width=30	"窗口宽度的设置
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
@@ -687,7 +707,7 @@ nmap <leader>] :lprevious<CR>
 Plug 'troydm/zoomwintab.vim'
 
 " JSON
-Plug 'elzr/vim-json'
+" Plug 'elzr/vim-json'
 
 " Markdown
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
