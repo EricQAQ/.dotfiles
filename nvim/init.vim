@@ -170,6 +170,9 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+" dockerfile语法支持
+Plug 'ekalinin/Dockerfile.vim'
+
 " emoji表情
 Plug 'junegunn/vim-emoji'
 set completefunc=emoji#complete
@@ -183,20 +186,28 @@ noremap <leader>yd :<C-u>Yde<CR>
 " rst语法支持
 Plug 'Rykka/riv.vim'
 
-" dockerfile语法支持
-Plug 'ekalinin/Dockerfile.vim'
-
 " thrift语法支持
 Plug 'solarnz/thrift.vim'
 
 " ansible语法支持
 Plug 'pearofducks/ansible-vim'
 
-" 命令行浏览器
-Plug 'yuratomo/w3m.vim'
-noremap <leader>m :W3m
-let g:w3m#lang = 'zh_CN'
-" let g:w3m#option = '-o display_charset=utf-8 -halfdump -o frame=true -o ext_halfdump=1 -o strict_iso2022=0 -o ucs_conv=1'
+" fuzzy
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+" Mapping selecting mappings
+nmap <C-g> :FZF<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Advanced customization using autoload functions
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
 " 欢迎界面
 Plug 'mhinz/vim-startify'
@@ -238,6 +249,17 @@ Plug 'rizzatti/dash.vim'
 nmap <silent> <leader>t <Plug>DashSearch
 nmap <silent> <leader>y <Plug>DashGlobalSearch
 
+" elixir支持
+Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' }
+Plug 'slashmili/alchemist.vim'
+let g:alchemist#elixir_erlang_src = "~/elixir_otp"
+let g:alchemist_tag_map = '<C-q>'
+let g:alchemist_tag_stack_map = '<C-w>'
+let g:alchemist_iex_term_size = 15
+let g:alchemist_iex_term_split = 'split'
+nmap ex :IEx 
+nmap mi :Mix 
+
 " python支持
 Plug 'davidhalter/jedi-vim'
 Plug 'kh3phr3n/python-syntax'
@@ -259,13 +281,13 @@ let g:racer_cmd = "~/.cargo/bin/racer"
 " 显示函数定义
 let g:racer_experimental_completer = 1
 " 跳转到定义
-au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap <C-q> <Plug>(rust-def)
 " 跳转到定义, 横屏显示
-au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap <C-w> <Plug>(rust-def-split)
 " 跳转到定义, 竖屏显示
-au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <C-e> <Plug>(rust-def-vertical)
 " 跳转到文档
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+au FileType rust nmap <C-p> <Plug>(rust-doc)
 
 " golang支持
 Plug 'fatih/vim-go'
@@ -304,8 +326,8 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符�
 let g:ycm_seed_identifiers_with_syntax=1
 " 跳转到定义处, 分屏打开
 let g:ycm_goto_buffer_command = 'horizontal-split'
-nnoremap <leader>ud :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>gs :YcmCompleter GoToDeclaration<CR>
+nnoremap <C-w> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <C-q> :YcmCompleter GoToDeclaration<CR>
 
 " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 " old version
@@ -554,29 +576,6 @@ let g:unite_force_overwrite_statusline = 0
       " \ 'subseparator': { 'left': '', 'right': '' }
       " \ }
 
-" Airline
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" let g:airline_theme="base16"
-
-" let g:airline_powerline_fonts = 1
-
-" if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-" endif
-" let g:airline_left_sep = '▶'
-" let g:airline_left_alt_sep = '❯'
-" let g:airline_right_sep = '◀'
-" let g:airline_right_alt_sep = '❮'
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.branch = '⎇'
-    " 是否打开tabline
-    " let g:airline#extensions#tabline#enabled = 1
-
 " 查找文件名, 支持模糊匹配
 Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_map = '<leader>p'
@@ -652,6 +651,29 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
+let g:tagbar_type_elixir = {
+    \ 'ctagstype': 'elixir',
+    \ 'kinds': [
+        \ 'f:functions:0:0',
+        \ 'c:callbacks:0:0',
+        \ 'd:delegates:0:0',
+        \ 'e:exceptions:0:0',
+        \ 'i:implementations:0:0',
+        \ 'a:macros:0:0',
+        \ 'o:operators:0:0',
+        \ 'm:modules:0:0',
+        \ 'p:protocols:0:0',
+        \ 'r:records:0:0'
+    \ ],
+    \ 'sro': '.',
+    \ 'kind2scope': {
+        \ 'm': 'modules'
+    \ },
+    \ 'scope2kind': {
+        \ 'modules': 'm'
+    \ }
+\ }
+
 " XML
 Plug 'othree/xml.vim'
 
@@ -659,6 +681,7 @@ Plug 'othree/xml.vim'
 Plug 'othree/html5.vim'
 
 " 语法检查
+" {{{
 Plug 'scrooloose/syntastic'
 
 set statusline+=%#warningmsg#
@@ -690,7 +713,6 @@ let g:syntastic_rust_checkers = ['rustc', 'rustfmt']
 
 " 高亮
 let g:syntastic_enable_highlighting=1
-
 " 合并错误输出
 let g:syntasitc_aggregate_errors = 1
 
@@ -702,12 +724,10 @@ nmap <leader>c :lclose<CR>
 nmap <leader>[ :lnext<CR>
 " 跳转到上一个错误
 nmap <leader>] :lprevious<CR>
+" }}}
 
 " 放大vim中的一个窗口
 Plug 'troydm/zoomwintab.vim'
-
-" JSON
-" Plug 'elzr/vim-json'
 
 " Markdown
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
@@ -726,6 +746,7 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_python = 1
+let g:NERDAltDelims_go = 1
 let g:NERDAltDelims_rust = 1
 
 
@@ -759,7 +780,6 @@ let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
 
 call plug#end()
-
 
 " TODO: 设置内置终端的颜色
 let g:terminal_color_0  = '#282a36'
