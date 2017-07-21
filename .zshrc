@@ -50,7 +50,7 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting urltools autojump brew chucknorris colorize autoenv)
+plugins=(git urltools autojump brew colorize autoenv zsh-syntax-highlighting)
 
 # User configuration
 
@@ -90,19 +90,18 @@ alias tmux='tmux -2'
 alias cat='colorize'
 export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 
-export CARGO_HOME="/Users/eric/.cargo"
+export CARGO_HOME="$HOME/.cargo"
 
-export GOPATH="$HOME/go_code"
+# export GOPATH="$HOME/go_code"
 
 export PATH=$(cat /etc/paths | xargs | tr " " :)
-export PATH="$PATH:$GOPATH/bin"
+# export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 tic $TERM.ti
 #export PATH="/Users/Eric/Library/Python/2.7/bin:$PATH"
 #. /Users/eric/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
-fortune -s | cowsay | lolcat
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
 source /usr/local/opt/autoenv/activate.sh

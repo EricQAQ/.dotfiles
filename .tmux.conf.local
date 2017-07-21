@@ -13,6 +13,11 @@ tmux_conf_theme=powerline
 #tmux_conf_theme_prefix=disabled
 tmux_conf_theme_prefix=enabled
 
+tmux_conf_theme_left_separator_main=''
+tmux_conf_theme_left_separator_sub=''
+tmux_conf_theme_right_separator_main=''
+tmux_conf_theme_right_separator_sub=''
+
 # display the battery information in the status line, possible values are:
 #   - enabled
 #   - disabled
@@ -123,5 +128,6 @@ bind s split-window -v
 unbind '"'
 unbind '%'
 
-unbind C-b
-
+set -g prefix C-a
+unbind-key C-b
+bind-key C-a send-prefix

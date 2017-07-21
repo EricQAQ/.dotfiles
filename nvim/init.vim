@@ -277,7 +277,7 @@ au FileType rust nmap rr :RustRun<CR>
 " Rust自动补全, racer
 Plug 'racer-rust/vim-racer'
 set hidden
-let g:racer_cmd = "~/.cargo/bin/racer"
+let g:racer_cmd = "/Users/eric/.cargo/bin/racer"
 " 显示函数定义
 let g:racer_experimental_completer = 1
 " 跳转到定义

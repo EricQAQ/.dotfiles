@@ -6,7 +6,6 @@
 HomeBrew:
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-brew install pip
 brew install golang
 brew install gotags
 brew install ctags
@@ -15,15 +14,17 @@ brew install tmux
 brew install the_silver_searcher    # Ag用来加快全文搜索速度
 brew install autojump
 
-pip install flake8
-pip install pyflakes
-pip install pep8
 pip install neovim
 pip install virtualenv
 pip install jedi
 pip install pygments
 ```
-注意设置brew安装的python为默认python(替换掉mac系统自带的python)
+注意设置brew安装的python为默认python(替换掉mac系统自带的python):
+
+```
+brew link python
+ln -s /usr/local/Cellar/python/2.7.13_1/bin/python2 /usr/local/bin/python
+```
 
 ## 2. oh-my-zsh
 
@@ -37,6 +38,11 @@ pip install pygments
 
   1. 使用dotfiles的`.zshrc`文件替换原有文件
   2. 把`.dotfiles/erica.zsh-theme`文件拷贝至`oh-my-zsh`源码的`theme`文件夹中, mac中的路径是`~/.oh-my-zsh/theme/`
+  3. 执行下面的命令 
+  
+        ```
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+        ```
 
 3. 设置
 
@@ -65,18 +71,11 @@ pip install pygments
 
   ```curl https://sh.rustup.rs -sSf | sh```
 
-2. 安装cargo, rust
-
-  ```
-  $ rustup install rustc
-  $ rustup install cargo
-  ```
-
-3. 使用rustup装rust源码(必须)
+2. 使用rustup装rust源码(必须)
 
   ```$ rustup component add rust-src```
 
-4. 安装racer
+3. 安装racer
   由于cargo换成了USTC的源(国外太慢), 使用下面的方法安装racer, 不能补全三方库
 
   ```cargo install racer```
