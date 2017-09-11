@@ -131,3 +131,7 @@ unbind '%'
 set -g prefix C-a
 unbind-key C-b
 bind-key C-a send-prefix
+
+# 更新至macOS Sierra之后, 系统剪切板出现问题, 用这个修复
+set -g default-shell $SHELL
+set -g default-command "reattach-to-user-namespace -l ${SHELL}"

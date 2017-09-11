@@ -117,6 +117,7 @@ endif
 " map <C-A> <Esc>ggVG 
 
 " 复制到剪切板
+set clipboard=unnamed " 更新至macOS Sierra之后, 系统剪切板出现问题, 用这个修复
 vmap <C-c> "*y
 vmap <C-v> "*p
 
@@ -172,6 +173,9 @@ endif
 
 " dockerfile语法支持
 Plug 'ekalinin/Dockerfile.vim'
+
+" toml语法支持
+Plug 'cespare/vim-toml'
 
 " emoji表情
 Plug 'junegunn/vim-emoji'
