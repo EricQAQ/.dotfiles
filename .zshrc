@@ -50,7 +50,7 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git urltools autojump brew colorize autoenv zsh-syntax-highlighting)
+plugins=(git extract osx web-search urltools autojump brew colorize autoenv zsh-syntax-highlighting)
 
 # User configuration
 
@@ -85,9 +85,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 #alias vim='/usr/local/Cellar/vim/7.4.2033/bin/vim'
+# outside of tmux, make sure TERM is xterm-256color
+[ -z "$TMUX" ] && export TERM=xterm-256color
+# [ -z "$TMUX" ] && exec tmux
+
 alias vim='/usr/local/bin/nvim'
 alias tmux='tmux -2'
 alias cat='colorize'
+export http_proxy=http://127.0.0.1:1087
+export https_proxy=http://127.0.0.1:1087
 export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 
 export CARGO_HOME="$HOME/.cargo"
