@@ -3,6 +3,7 @@ scriptencoding utf-8
 set encoding=utf-8
 
 let t_Co = 256
+set mouse=a
 
 let g:python_host_prog='/usr/local/bin/python'
 
@@ -176,6 +177,8 @@ Plug 'ekalinin/Dockerfile.vim'
 
 " toml语法支持
 Plug 'cespare/vim-toml'
+
+" URL跳转
 
 " emoji表情
 Plug 'junegunn/vim-emoji'

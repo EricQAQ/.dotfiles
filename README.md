@@ -82,12 +82,21 @@ ln -s /usr/local/Cellar/python/2.7.13_1/bin/python2 /usr/local/bin/python
 
   ```cargo install racer```
 
-  如果需要补全三方库, 请编译安装racer:
+  如果在使用镜像源之后, 需要补全三方库, 有两种方法:
+  
+  1. 请编译安装racer:
 
-  1. git clone git@github.com:EricQAQ/racer.git
-  2. 切换到racer目录，checkout use-ustc-mirror-for-cargo
-  3. cargo build --release
-  4. cp target/release/racer ~/.cargo/bin/
+    1. git clone git@github.com:EricQAQ/racer.git
+    2. 切换到racer目录，checkout use-ustc-mirror-for-cargo
+    3. cargo build --release
+    4. cp target/release/racer ~/.cargo/bin/
+
+  2. 创建软连接:
+
+    1. cd ~/.cargo/registry/src
+    2. 给镜像源创建软链接, 指向一个`github.com-`开头的文件:
+        `ln -s mirrors.ustc.edu.cn-61ef6e0cd06fb9b8 github.com-soft-link`
+    3. 安装racer: cargo install racer
 
 
 ## 5. go
