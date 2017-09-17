@@ -4,6 +4,7 @@ set encoding=utf-8
 
 let t_Co = 256
 set mouse=a
+" set laststatus=2
 
 let g:python_host_prog='/usr/local/bin/python'
 
@@ -456,12 +457,13 @@ Plug 'itchyny/lightline.vim'
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'easyfilename' ] ],
       \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
       \   'fugitive': 'LightlineFugitive',
       \   'filename': 'LightlineFilename',
+      \   'easyfilename': 'LightlineEasyFilename',
       \   'fileformat': 'LightlineFileformat',
       \   'filetype': 'LightlineFiletype',
       \   'fileencoding': 'LightlineFileencoding',
@@ -504,13 +506,26 @@ function! LightlineReadonly()
 endfunction
 
 function! LightlineFilename()
-  let fname = expand('%:t')
+  let fname = expand('%:p')
   return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
         \ fname =~ '__Tagbar__' ? g:lightline.fname :
         \ fname =~ 'NERD_tree' ? '' :
+        \ fname =~ 'FZF'? 'FZF Search' :
         \ &ft == 'unite' ? unite#get_status_string() :
         \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineEasyFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? '' :
+        \ fname =~ '__Tagbar__' ? '' :
+        \ fname =~ 'NERD_tree' ? '' :
+        \ fname =~ 'FZF'? '' :
+        \ &ft == 'unite' ? '' :
+        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '') .
         \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 
