@@ -160,8 +160,24 @@ noremap <leader>/ :nohls<CR>
 " 括号跳转
 noremap <C-g> %
 
-call plug#begin()
+" vim Tag操作
+" <leader> + 1,2,3,4,5,6,7,8,9切换tab
+function! TabPos_ActivateBuffer(num)
+    let s:count = a:num
+    exe "tabfirst"
+    exe "tabnext" s:count
+endfunction
+ 
+function! TabPos_Initialize()
+for i in range(1, 9)
+        exe "map <leader>" . i . " :call TabPos_ActivateBuffer(" . i . ")<CR>"
+    endfor
+    exe "map <leader>0 :call TabPos_ActivateBuffer(10)<CR>"
+endfunction
+ 
+autocmd VimEnter * call TabPos_Initialize()
 
+call plug#begin()
 " Google Material 主题
 " Plug 'jdkanani/vim-material-theme'
 " Plug 'morhetz/gruvbox'
@@ -201,6 +217,11 @@ Plug 'pearofducks/ansible-vim'
 
 " fuzzy
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 " Mapping selecting mappings
 nmap <C-g> :FZF<CR>
 nmap <leader><tab> <plug>(fzf-maps-n)
@@ -562,26 +583,6 @@ endfunction
 " let g:vimfiler_force_overwrite_statusline = 0
 " let g:vimshell_force_overwrite_statusline = 0
 let g:unite_force_overwrite_statusline = 0
-
-" let g:lightline = {
-      " \ 'colorscheme': 'wombat',
-      " \ 'active': {
-      " \   'left': [ [ 'mode', 'paste' ],
-      " \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      " \ },
-      " \ 'component': {
-      " \   'readonly': '%{&readonly?"":""}',
-      " \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      " \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      " \ },
-      " \ 'component_visible_condition': {
-      " \   'readonly': '(&filetype!="help"&& &readonly)',
-      " \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      " \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      " \ },
-      " \ 'separator': { 'left': '',  'right': ''},
-      " \ 'subseparator': { 'left': '', 'right': '' }
-      " \ }
 
 " 查找文件名, 支持模糊匹配
 Plug 'ctrlpvim/ctrlp.vim'
