@@ -210,15 +210,15 @@ Plug 'racer-rust/vim-racer'                             " Rust自动补全, race
 Plug 'fatih/vim-go'                                     " golang支持
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'Valloric/YouCompleteMe'                           " 自动补全
+Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
+Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
+Plug 'dyng/ctrlsf.vim'                                  " 全局搜索某个特定的字符
 " 树形文件查看插件
 Plug 'scrooloose/nerdtree',                         { 'on': 'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'                               " 状态栏支持显示当前git分支
-Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
-Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
-Plug 'dyng/ctrlsf.vim'                                  " 全局搜索某个特定的字符
 Plug 'majutsushi/tagbar'                                " 显示文件中的类、函数、变量
 Plug 'othree/xml.vim'                                   " XML
 Plug 'othree/html5.vim'                                 " HTML
@@ -422,6 +422,13 @@ if !empty(glob("~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.y
 endif
 " }}}
 
+" vim-devicons {{{
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
+" }}}
+
 " nerdtree 配置 {{{
 map <C-n> :NERDTreeToggle<CR>
 
@@ -492,15 +499,15 @@ let g:NERDTreePatternMatchHighlightFullName = 1
 
 " nerdtree-git-plugin {{{
 let g:NERDTreeIndicatorMapCustom = {
-    \ 'Modified'  : '✹',
-    \ 'Staged'    : '✚',
-    \ 'Untracked' : '✭',
-    \ 'Renamed'   : '➜',
-    \ 'Unmerged'  : '═',
-    \ 'Deleted'   : '✖',
-    \ 'Dirty'     : '✗',
-    \ 'Clean'     : '✔︎',
-    \ 'Unknown'   : '?'
+    \ 'Modified'  : '✹ ',
+    \ 'Staged'    : '✚ ',
+    \ 'Untracked' : '✭ ',
+    \ 'Renamed'   : '➜ ',
+    \ 'Unmerged'  : '═ ',
+    \ 'Deleted'   : '✖ ',
+    \ 'Dirty'     : '✗ ',
+    \ 'Clean'     : '✔︎ ',
+    \ 'Unknown'   : '? '
     \ }
 " }}}
 
