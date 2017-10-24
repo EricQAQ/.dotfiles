@@ -1,3 +1,7 @@
+" 显式设置当前脚本的编码方式以支持多字节字符
+scriptencoding utf-8
+set encoding=utf-8
+
 let t_Co = 256
 set mouse=a
 " set laststatus=2
@@ -185,35 +189,96 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-" dockerfile语法支持
-Plug 'ekalinin/Dockerfile.vim'
+Plug 'junegunn/vim-emoji'                               " emoji表情
+Plug 'ianva/vim-youdao-translater'                      " 有道翻译
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'     " fuzzy
+Plug 'mhinz/vim-startify'                               " 欢迎界面
+Plug 'itchyny/vim-cursorword'                           " cursor
+Plug 'terryma/vim-multiple-cursors'                     " 光标多选
+Plug 'rizzatti/dash.vim'                                " Dash支持
+Plug 'ekalinin/Dockerfile.vim'                          " dockerfile语法支持
+Plug 'cespare/vim-toml'                                 " toml语法支持
+Plug 'Rykka/riv.vim'                                    " rst语法支持
+Plug 'solarnz/thrift.vim'                               " thrift语法支持
+Plug 'pearofducks/ansible-vim'                          " ansible语法支持
+Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
+Plug 'slashmili/alchemist.vim'                          " elixir支持
+Plug 'davidhalter/jedi-vim'                             " python支持
+Plug 'kh3phr3n/python-syntax'                           " python支持
+Plug 'rust-lang/rust.vim'                               " Rust支持
+Plug 'racer-rust/vim-racer'                             " Rust自动补全, racer
+Plug 'fatih/vim-go'                                     " golang支持
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'Valloric/YouCompleteMe'                           " 自动补全
+" 树形文件查看插件
+Plug 'scrooloose/nerdtree',                         { 'on': 'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'                               " 状态栏支持显示当前git分支
+Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
+Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
+Plug 'dyng/ctrlsf.vim'                                  " 全局搜索某个特定的字符
+Plug 'majutsushi/tagbar'                                " 显示文件中的类、函数、变量
+Plug 'othree/xml.vim'                                   " XML
+Plug 'othree/html5.vim'                                 " HTML
+Plug 'scrooloose/syntastic'                             " 语法检查
+Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
+Plug 'plasticboy/vim-markdown', {'for': 'markdown'}     " Markdown
+Plug 'scrooloose/nerdcommenter'                         " 快速注释
+Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
+Plug 'docunext/closetag.vim'                            " 自动补全html/xml标签
+Plug 'easymotion/vim-easymotion'                        " 快速跳转
+Plug 'airblade/vim-gitgutter'                           " 实时展示文件修改的行
+Plug 'Yggdroot/indentLine'                              " 缩进指示
 
-" toml语法支持
-Plug 'cespare/vim-toml'
+call plug#end()
 
-" URL跳转
+let g:terminal_color_0 = '#282828'
+let g:terminal_color_8 = '#928374'
 
-" emoji表情
-Plug 'junegunn/vim-emoji'
+" neurtral_red + bright_red
+let g:terminal_color_1 = '#cc241d'
+let g:terminal_color_9 = '#fb4934'
+
+" neutral_green + bright_green
+let g:terminal_color_2 = '#98971a'
+let g:terminal_color_10 = '#b8bb26'
+
+" neutral_yellow + bright_yellow
+let g:terminal_color_3 = '#d79921'
+let g:terminal_color_11 = '#fabd2f'
+
+" neutral_blue + bright_blue
+let g:terminal_color_4 = '#458588'
+let g:terminal_color_12 = '#83a598'
+
+" neutral_purple + bright_purple
+let g:terminal_color_5 = '#b16286'
+let g:terminal_color_13 = '#d3869b'
+
+" neutral_aqua + faded_aqua
+let g:terminal_color_6 = '#689d6a'
+let g:terminal_color_14 = '#8ec07c'
+
+" light4 + light1
+let g:terminal_color_7 = '#a89984'
+let g:terminal_color_15 = '#ebdbb2'
+
+" ========================================================================================
+" ========================================插件配置========================================
+" ========================================================================================
+" vim-emoji {{{
 set completefunc=emoji#complete
+" }}}
 
-" 有道翻译
-Plug 'ianva/vim-youdao-translater'
+" vim-youdao-translater {{{
 vnoremap <silent> <C-T> :<C-u>Ydv<CR>
 nnoremap <silent> <C-T> :<C-u>Ydc<CR>
 noremap <leader>yd :<C-u>Yde<CR>
+" }}}
 
-" rst语法支持
-Plug 'Rykka/riv.vim'
-
-" thrift语法支持
-Plug 'solarnz/thrift.vim'
-
-" ansible语法支持
-Plug 'pearofducks/ansible-vim'
-
-" fuzzy
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+" fzf.vim {{{
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
@@ -233,9 +298,9 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+" }}}
 
-" 欢迎界面
-Plug 'mhinz/vim-startify'
+" vim-startify {{{
 let g:startify_custom_header = [
             \'',
             \'          _____      _           _   _         __     ___            ',
@@ -257,26 +322,21 @@ let g:startify_list_order = [
             \ ['   Commands:'],
             \ 'commands',
             \ ]
+" }}}
 
-" cursor
-Plug 'itchyny/vim-cursorword'
-
-" 光标多选
-Plug 'terryma/vim-multiple-cursors'
+" vim-multiple-cursors {{{
 let g:multi_cursor_next_key='<C-j>'
 let g:multi_cursor_prev_key='<C-k>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
+" }}}
 
-
-" Dash支持
-Plug 'rizzatti/dash.vim'
+" dash.vim {{{
 nmap <silent> <leader>t <Plug>DashSearch
 nmap <silent> <leader>y <Plug>DashGlobalSearch
+" }}}
 
-" elixir支持
-Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' }
-Plug 'slashmili/alchemist.vim'
+" vim-elixir {{{
 let g:alchemist#elixir_erlang_src = "~/elixir_otp"
 let g:alchemist_tag_map = '<C-q>'
 let g:alchemist_tag_stack_map = '<C-w>'
@@ -284,23 +344,22 @@ let g:alchemist_iex_term_size = 15
 let g:alchemist_iex_term_split = 'split'
 nmap ex :IEx 
 nmap mi :Mix 
+" }}}
 
-" python支持
-Plug 'davidhalter/jedi-vim'
-Plug 'kh3phr3n/python-syntax'
-" let python_highlight_all = 1
+" python-syntax {{{
 let python_self_cls_highlight = 1
 let python_no_parameter_highlight = 1
 let python_no_operator_highlight = 1
+" let python_highlight_all = 1
+" }}}
 
-" Rust支持
-Plug 'rust-lang/rust.vim'
+" rust.vim {{{
 let g:rustfmt_autosave = 0
 au FileType rust nmap rf :RustFmt<CR>
 au FileType rust nmap rr :RustRun<CR>
+" }}}
 
-" Rust自动补全, racer
-Plug 'racer-rust/vim-racer'
+" vim-racer {{{
 set hidden
 let g:racer_cmd = "/Users/eric/.cargo/bin/racer"
 " 显示函数定义
@@ -313,9 +372,9 @@ au FileType rust nmap <C-w> <Plug>(rust-def-split)
 au FileType rust nmap <C-e> <Plug>(rust-def-vertical)
 " 跳转到文档
 au FileType rust nmap <C-p> <Plug>(rust-doc)
+" }}}
 
-" golang支持
-Plug 'fatih/vim-go'
+" vim-go {{{
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
@@ -333,11 +392,8 @@ au FileType go nmap <Leader>rv <Plug>(go-run-vertical)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
+" }}}
 
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-
-" 自动补全
-Plug 'Valloric/YouCompleteMe'
 " YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
 let g:ycm_key_list_previous_completion = ['<C-M>']
@@ -366,43 +422,115 @@ if !empty(glob("~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.y
 endif
 " }}}
 
-" 树形文件查看插件
-Plug 'scrooloose/nerdtree',                         { 'on': 'NERDTreeToggle' }
-Plug 'ryanoasis/vim-devicons'
-Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
+" nerdtree 配置 {{{
+map <C-n> :NERDTreeToggle<CR>
 
-" 状态栏支持显示当前git分支
-Plug 'tpope/vim-fugitive'
+let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea', '\.o$']
+let NERDTreeSortOrder                 = ['\/$', '*']
+let NERDTreeWinPos                    = 'left'
+let NERDTreeWinSize                   = 20
+let NERDTreeChDirMode                 = 2
+let NERDTreeDirArrows                 = 1
+let NERDTreeMinimalUI                 = 1
+let NERDTreeMouseMode                 = 2
+let NERDTreeShowHidden                = 1
+let NERDTreeQuitOnOpen                = 0
+let NERDTreeHijackNetrw               = 1
+let NERDTreeSortHiddenFirst           = 1
+let NERDTreeAutoDeleteBuffer          = 1
+let NERDTreeCaseSensitiveSort         = 1
+let NERDTreeHighlightCursorline       = 1
+let NERDTreeCascadeOpenSingleChildDir = 1
+" D/d 分屏打开文件
+let g:NERDTreeMapOpenSplit = 'D'
+let g:NERDTreeMapOpenVSplit = 'd'
+" }}}
 
-" 轻量级状态栏优化插件
-Plug 'itchyny/lightline.vim'
+" vim-nerdtree-syntax-highlight配置 {{{
+let s:brown = '905532'
+let s:aqua =  '3AFFDB'
+let s:blue = '689FB6'
+let s:darkBlue = '44788E'
+let s:purple = '834F79'
+let s:red = 'AE403F'
+let s:beige = 'F5C06F'
+let s:yellow = 'F09F17'
+let s:orange = 'D4843E'
+let s:darkOrange = 'F16529'
+let s:pink = 'CB6F6F'
+let s:salmon = 'EE6E73'
+let s:green = '8FAA54'
+let s:lightGreen = '31B53E'
+let s:white = 'FFFFFF'
+let s:rspec_red = 'FE405F'
+let s:git_orange = 'F54D27'
+
+let g:NERDTreeExtensionHighlightColor = {}
+let g:NERDTreeExtensionHighlightColor['c'] = s:yellow
+let g:NERDTreeExtensionHighlightColor['python'] = s:lightGreen
+let g:NERDTreeExtensionHighlightColor['rust'] = s:orange
+
+let g:NERDTreeExactMatchHighlightColor = {}
+let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange
+let g:NERDTreeExactMatchHighlightColor['.ipynb'] = s:purple
+let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:brown
+
+let g:NERDTreePatternMatchHighlightColor = {}
+let g:NERDTreePatternMatchHighlightColor['.*.h$'] = s:pink
+let g:NERDTreePatternMatchHighlightColor['.*.rs$'] = s:salmon
+let g:NERDTreePatternMatchHighlightColor['.*.py$'] = s:lightGreen
+let g:NERDTreePatternMatchHighlightColor['.*_spec\.rb$'] = s:rspec_red
+let g:NERDTreePatternMatchHighlightColor['.*.toml$'] = s:aqua
+let g:NERDTreePatternMatchHighlightColor['.*.yml$'] = s:darkOrange
+
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+" }}}
+
+" nerdtree-git-plugin {{{
+let g:NERDTreeIndicatorMapCustom = {
+    \ 'Modified'  : '✹',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '═',
+    \ 'Deleted'   : '✖',
+    \ 'Dirty'     : '✗',
+    \ 'Clean'     : '✔︎',
+    \ 'Unknown'   : '?'
+    \ }
+" }}}
+
+" lightline配置 {{{
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'easyfilename' ] ],
-      \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'fugitive': 'LightlineFugitive',
-      \   'filename': 'LightlineFilename',
-      \   'easyfilename': 'LightlineEasyFilename',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
-      \   'fileencoding': 'LightlineFileencoding',
-      \   'mode': 'LightlineMode',
-      \   'percent': 'MyLightLinePercent',
-      \   'lineinfo': 'MyLightLineLineInfo'
-      \ },
-      \ 'component_expand': {
-      \   'syntastic': 'SyntasticStatuslineFlag',
-      \ },
-      \ 'component_type': {
-      \   'syntastic': 'error',
-      \ },
-      \ 'separator': { 'left': '',  'right': ''},
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
+  \ 'colorscheme': 'wombat',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'easyfilename' ] ],
+  \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+  \ },
+  \ 'component_function': {
+  \   'fugitive': 'LightlineFugitive',
+  \   'filename': 'LightlineFilename',
+  \   'easyfilename': 'LightlineEasyFilename',
+  \   'fileformat': 'LightlineFileformat',
+  \   'filetype': 'LightlineFiletype',
+  \   'fileencoding': 'LightlineFileencoding',
+  \   'mode': 'LightlineMode',
+  \   'percent': 'MyLightLinePercent',
+  \   'lineinfo': 'MyLightLineLineInfo'
+  \ },
+  \ 'component_expand': {
+  \   'syntastic': 'SyntasticStatuslineFlag',
+  \ },
+  \ 'component_type': {
+  \   'syntastic': 'error',
+  \ },
+  \ 'separator': { 'left': '',  'right': ''},
+  \ 'subseparator': { 'left': '', 'right': '' }
+  \ }
 
 function! MyLightLinePercent()
   if &ft !=? 'nerdtree' && &ft !=? 'tagbar'
@@ -469,7 +597,6 @@ function! LightlineFileformat()
 endfunction
 
 function! LightlineFiletype()
-  " return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
@@ -522,9 +649,9 @@ endfunction
 " let g:vimfiler_force_overwrite_statusline = 0
 " let g:vimshell_force_overwrite_statusline = 0
 let g:unite_force_overwrite_statusline = 0
+" }}}
 
-" 查找文件名, 支持模糊匹配
-Plug 'ctrlpvim/ctrlp.vim'
+" strlp.vim {{{
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_cmd = 'CtrlP'
 map <leader>f :CtrlPMRU<CR>
@@ -538,18 +665,18 @@ let g:ctrlp_max_height=15
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
+" }}}
 
-" 全局搜索某个特定的字符
-Plug 'dyng/ctrlsf.vim'
+" ctrlsf.vim {{{
 let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
 nmap <leader>s :CtrlSF
 nmap <leader>o :CtrlSFOpen<CR>
 nmap ss :CtrlSF <C-R><C-W><CR>
 vnoremap ss y:CtrlSF <C-R>"<CR>
 let g:ctrlsf_default_root = 'project'
+" }}}
 
-" 显示文件中的类、函数、变量
-Plug 'majutsushi/tagbar'
+" Tagbar {{{
 nmap <F9> :TagbarToggle<CR>
 inoremap <F9> <ESC>:TagbarToggle<CR>
 let g:tagbar_width=30	"窗口宽度的设置
@@ -620,17 +747,9 @@ let g:tagbar_type_elixir = {
         \ 'modules': 'm'
     \ }
 \ }
+" }}}
 
-" XML
-Plug 'othree/xml.vim'
-
-" HTML
-Plug 'othree/html5.vim'
-
-" 语法检查
-" {{{
-Plug 'scrooloose/syntastic'
-
+" Syntastic {{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -675,23 +794,22 @@ nmap <leader>[ :lnext<CR>
 nmap <leader>] :lprevious<CR>
 " }}}
 
-" 放大vim中的一个窗口
-Plug 'troydm/zoomwintab.vim'
+" zoomwintab {{{
 let g:zoomwintab_remap = 0
 let g:zoomwintab_hidetabbar = 0
 nnoremap <Space>w :ZoomWinTabToggle<CR>
+" }}}
 
-" Markdown
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
+" vim-markdown {{{
 let g:vim_markdown_toc_autofit      = 1
 let g:vim_markdown_frontmatter      = 1
 let g:vim_markdown_json_frontmatter = 1 " 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
 set expandtab
 let g:vim_markdown_toml_frontmatter = 1
 let g:vim_markdown_folding_disabled = 1
+" }}}
 
-" 快速注释
-Plug 'scrooloose/nerdcommenter'
+" 快速注释nerdcommenter {{{
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 " Use compact syntax for prettified multi-line comments
@@ -703,15 +821,9 @@ let g:NERDCustomDelimiters = {
     \ 'rust': { 'left': '//' },
     \ 'c': { 'left': '//' },
 \ }
+" }}}
 
-
-" 自动补全单引号，双引号等
-Plug 'Raimondi/delimitMate'
-" 自动补全html/xml标签
-Plug 'docunext/closetag.vim'
-
-" 快速跳转
-Plug 'easymotion/vim-easymotion'
+" vim-easymotion {{{
 let g:EasyMotion_smartcase = 1
 map <Leader>h <Plug>(easymotion-linebackward)
 map <Leader>j <Plug>(easymotion-j)
@@ -719,110 +831,21 @@ map <Leader>k <Plug>(easymotion-k)
 map <Leader>l <Plug>(easymotion-lineforward)
 " 重复上一次操作, 类似repeat插件, 很强大
 map <Leader><leader>. <Plug>(easymotion-repeat)
+" }}}
 
-" 实时展示文件修改的行
-Plug 'airblade/vim-gitgutter'
+" 实时展示文件修改的行 vim-gitgutter {{{
 let g:gitgutter_map_keys = 0
 let g:gitgutter_enabled = 1
 let g:gitgutter_highlight_lines = 1
 nnoremap <leader>gs :GitGutterToggle<CR>
 nmap ]n <Plug>GitGutterNextHunk
 nmap [n <Plug>GitGutterPrevHunk
+" }}}
 
-" 缩进指示
-Plug 'Yggdroot/indentLine'
+" 缩进指示indentLine {{{
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
-
-call plug#end()
-
-" 显式设置当前脚本的编码方式以支持多字节字符
-scriptencoding utf-8
-set encoding=utf-8
-
-" nerdtree 配置 {{{
-map <C-n> :NERDTreeToggle<CR>
-
-let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea', '\.o$']
-let NERDTreeSortOrder                 = ['\/$', '*']
-let NERDTreeWinPos                    = 'left'
-let NERDTreeWinSize                   = 20
-let NERDTreeChDirMode                 = 2
-let NERDTreeDirArrows                 = 1
-let NERDTreeMinimalUI                 = 1
-let NERDTreeMouseMode                 = 2
-let NERDTreeShowHidden                = 1
-let NERDTreeQuitOnOpen                = 0
-let NERDTreeHijackNetrw               = 1
-let NERDTreeSortHiddenFirst           = 1
-let NERDTreeAutoDeleteBuffer          = 1
-let NERDTreeCaseSensitiveSort         = 1
-let NERDTreeHighlightCursorline       = 1
-let NERDTreeCascadeOpenSingleChildDir = 1
-" D/d 分屏打开文件
-let g:NERDTreeMapOpenSplit = 'D'
-let g:NERDTreeMapOpenVSplit = 'd'
-" }}}
-
-" vim-nerdtree-syntax-highlight配置 {{{
-let s:brown = '905532'
-let s:aqua =  '3AFFDB'
-let s:blue = '689FB6'
-let s:darkBlue = '44788E'
-let s:purple = '834F79'
-let s:red = 'AE403F'
-let s:beige = 'F5C06F'
-let s:yellow = 'F09F17'
-let s:orange = 'D4843E'
-let s:darkOrange = 'F16529'
-let s:pink = 'CB6F6F'
-let s:salmon = 'EE6E73'
-let s:green = '8FAA54'
-let s:lightGreen = '31B53E'
-let s:white = 'FFFFFF'
-let s:rspec_red = 'FE405F'
-let s:git_orange = 'F54D27'
-
-let g:NERDTreeExtensionHighlightColor = {}
-let g:NERDTreeExtensionHighlightColor['c'] = s:yellow
-let g:NERDTreeExtensionHighlightColor['python'] = s:green
-let g:NERDTreeExtensionHighlightColor['rust'] = s:orange
-
-let g:NERDTreeExactMatchHighlightColor = {}
-let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange
-let g:NERDTreeExactMatchHighlightColor['.ipynb'] = s:purple
-let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:brown
-
-let g:NERDTreePatternMatchHighlightColor = {}
-let g:NERDTreePatternMatchHighlightColor['.*.h$'] = s:pink
-let g:NERDTreePatternMatchHighlightColor['.*.rs$'] = s:salmon
-let g:NERDTreePatternMatchHighlightColor['.*.py$'] = s:red
-let g:NERDTreePatternMatchHighlightColor['.*_spec\.rb$'] = s:rspec_red
-let g:NERDTreePatternMatchHighlightColor['.*.toml$'] = s:aqua
-let g:NERDTreePatternMatchHighlightColor['.*.yml$'] = s:darkOrange
-
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-" }}}
-
-" nerdtree-git-plugin {{{
-let g:NERDTreeIndicatorMapCustom = {
-    \ 'Modified'  : '✹',
-    \ 'Staged'    : '✚',
-    \ 'Untracked' : '✭',
-    \ 'Renamed'   : '➜',
-    \ 'Unmerged'  : '═',
-    \ 'Deleted'   : '✖',
-    \ 'Dirty'     : '✗',
-    \ 'Clean'     : '✔︎',
-    \ 'Unknown'   : '?'
-    \ }
-" }}}
-
-set guifont=Knack\ Nerd\ Font:h13
+"}}}
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark
