@@ -1,7 +1,3 @@
-" 显式设置当前脚本的编码方式以支持多字节字符
-scriptencoding utf-8
-set encoding=utf-8
-
 let t_Co = 256
 set mouse=a
 " set laststatus=2
@@ -95,9 +91,9 @@ set showcmd
 " 设置缩进相关选项
 set tabstop=4 shiftwidth=4 softtabstop=4 expandtab shiftround smartindent
 
-" 命令行模式下ctrl-a 到行首, ctrl-e 到行尾
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
+" 命令行模式下ctrl-h 到行首, ctrl-l 到行尾
+cnoremap <C-h> <Home>
+cnoremap <C-l> <End>
 
 " Go to home and end using capitalized directions
 noremap H ^
@@ -345,6 +341,7 @@ Plug 'Valloric/YouCompleteMe'
 " YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
 let g:ycm_key_list_previous_completion = ['<C-M>']
+let g:ycm_show_diagnostics_ui = 0
 let g:ycm_rust_src_path = 
     \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
@@ -353,8 +350,8 @@ let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
 let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
 " 开启语法关键字补全
 let g:ycm_seed_identifiers_with_syntax=1
-" 跳转到定义处, 分屏打开
-let g:ycm_goto_buffer_command = 'horizontal-split'
+" 跳转到定义处, 在新tab打开
+let g:ycm_goto_buffer_command = 'new-tab'
 nnoremap <C-w> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <C-q> :YcmCompleter GoToDeclaration<CR>
 
@@ -370,84 +367,10 @@ endif
 " }}}
 
 " 树形文件查看插件
-Plug 'scrooloose/nerdtree'
-
-map <C-n> :NERDTreeToggle<CR>
-
-let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea']
-let NERDTreeSortOrder                 = ['\/$', '*']
-let NERDTreeWinPos                    = 'left'
-let NERDTreeWinSize                   = 20
-let NERDTreeChDirMode                 = 2
-let NERDTreeDirArrows                 = 1
-let NERDTreeMinimalUI                 = 1
-let NERDTreeMouseMode                 = 2
-let NERDTreeShowHidden                = 1
-let NERDTreeQuitOnOpen                = 0
-let NERDTreeHijackNetrw               = 1
-let NERDTreeSortHiddenFirst           = 1
-let NERDTreeAutoDeleteBuffer          = 1
-let NERDTreeCaseSensitiveSort         = 1
-let NERDTreeHighlightCursorline       = 1
-let NERDTreeCascadeOpenSingleChildDir = 1
-" D/d 分屏打开文件
-let g:NERDTreeMapOpenSplit = 'D'
-let g:NERDTreeMapOpenVSplit = 'd'
-
-Plug 'Xuyuanp/nerdtree-git-plugin'
-let g:NERDTreeIndicatorMapCustom = {
-    \ 'Modified'  : '✹',
-    \ 'Staged'    : '✚',
-    \ 'Untracked' : '✭',
-    \ 'Renamed'   : '➜',
-    \ 'Unmerged'  : '═',
-    \ 'Deleted'   : '✖',
-    \ 'Dirty'     : '✗',
-    \ 'Clean'     : '✔︎',
-    \ 'Unknown'   : '?'
-    \ }
-
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-let s:brown = '905532'
-let s:aqua =  '3AFFDB'
-let s:blue = '689FB6'
-let s:darkBlue = '44788E'
-let s:purple = '834F79'
-let s:lightPurple = '834F79'
-let s:red = 'AE403F'
-let s:beige = 'F5C06F'
-let s:yellow = 'F09F17'
-let s:orange = 'D4843E'
-let s:darkOrange = 'F16529'
-let s:pink = 'CB6F6F'
-let s:salmon = 'EE6E73'
-let s:green = '8FAA54'
-let s:lightGreen = '31B53E'
-let s:white = 'FFFFFF'
-let s:rspec_red = 'FE405F'
-let s:git_orange = 'F54D27'
-
-let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExtensionHighlightColor['css'] = s:blue " sets the color of css files to blue
-let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExtensionHighlightColor['python'] = s:green " sets the color of css files to blue
-let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExtensionHighlightColor['org'] = s:pink " sets the color of css files to blue
-
-let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExactMatchHighlightColor['tex'] = s:rspec_red " sets the color of css files to blue
-let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange " sets the color for .gitignore files
-let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExactMatchHighlightColor['.ipynb'] = s:lightPurple " sets the color for .ipynb files
-let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExactMatchHighlightColor['.py'] = s:red " sets the color for .ipynb files
-
-let g:NERDTreePatternMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreePatternMatchHighlightColor['.*_spec\.rb$'] = s:rspec_red " sets the color for files ending with _spec.rb
-let g:NERDTreePatternMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreePatternMatchHighlightColor['*.py$'] = s:red " sets the color for files ending with _spec.rb
-
+Plug 'scrooloose/nerdtree',                         { 'on': 'NERDTreeToggle' }
+Plug 'ryanoasis/vim-devicons'
+Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
 
 " 状态栏支持显示当前git分支
 Plug 'tpope/vim-fugitive'
@@ -542,11 +465,12 @@ function! LightlineFugitive()
 endfunction
 
 function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
 function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+  " return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
 function! LightlineFileencoding()
@@ -588,7 +512,7 @@ endfunction
 
 augroup AutoSyntastic
   autocmd!
-  autocmd BufWritePost *.c,*.cpp, *.rs call s:syntastic()
+  autocmd BufWritePost *.c,*.cpp,*.rs,*.py call s:syntastic()
 augroup END
 function! s:syntastic()
   SyntasticCheck
@@ -725,14 +649,16 @@ let g:syntastic_warning_symbol='⚠'
 " 设置风格错误|警告符号
 let g:syntastic_style_error_symbol = '➔'
 let g:syntastic_style_warning_symbol = '➜'
-let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust'] }
+let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust', 'c'] }
 " python语法检查
 let g:syntastic_python_checkers=['python', 'flake8', 'pyflakes', 'pep8']
-" let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
 " go语法检查
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
 " rust语法检查
 let g:syntastic_rust_checkers = ['rustc', 'rustfmt']
+" C语法检查
+let g:syntastic_c_compiler = ['clang']
+let g:syntastic_c_checkers = ['clang_check', 'splint', 'make']
 
 " 高亮
 let g:syntastic_enable_highlighting=1
@@ -751,6 +677,9 @@ nmap <leader>] :lprevious<CR>
 
 " 放大vim中的一个窗口
 Plug 'troydm/zoomwintab.vim'
+let g:zoomwintab_remap = 0
+let g:zoomwintab_hidetabbar = 0
+nnoremap <Space>w :ZoomWinTabToggle<CR>
 
 " Markdown
 Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
@@ -770,7 +699,10 @@ let g:NERDCompactSexyComs = 1
 " Set a language to use its alternate delimiters by default
 let g:NERDAltDelims_python = 1
 let g:NERDAltDelims_go = 1
-let g:NERDAltDelims_rust = 1
+let g:NERDCustomDelimiters = {
+    \ 'rust': { 'left': '//' },
+    \ 'c': { 'left': '//' },
+\ }
 
 
 " 自动补全单引号，双引号等
@@ -804,23 +736,93 @@ let g:indentLine_enabled = 1
 
 call plug#end()
 
-" TODO: 设置内置终端的颜色
-let g:terminal_color_0  = '#282a36'
-let g:terminal_color_1  = '#ff5555'
-let g:terminal_color_2  = '#50fa7b'
-let g:terminal_color_3  = '#f1fa8c'
-let g:terminal_color_4  = '#bd93f9'
-let g:terminal_color_5  = '#ff79c6'
-let g:terminal_color_6  = '#8be9fd'
-let g:terminal_color_7  = '#50fa7b'
-let g:terminal_color_8  = '#555753'
-let g:terminal_color_9  = '#ef2929'
-let g:terminal_color_10 = '#8ae234'
-let g:terminal_color_11 = '#fce94f'
-let g:terminal_color_12 = '#729fcf'
-let g:terminal_color_13 = '#ad7fa8'
-let g:terminal_color_14 = '#00f5e9'
-let g:terminal_color_15 = '#eeeeec'
+" 显式设置当前脚本的编码方式以支持多字节字符
+scriptencoding utf-8
+set encoding=utf-8
+
+" nerdtree 配置 {{{
+map <C-n> :NERDTreeToggle<CR>
+
+let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea', '\.o$']
+let NERDTreeSortOrder                 = ['\/$', '*']
+let NERDTreeWinPos                    = 'left'
+let NERDTreeWinSize                   = 20
+let NERDTreeChDirMode                 = 2
+let NERDTreeDirArrows                 = 1
+let NERDTreeMinimalUI                 = 1
+let NERDTreeMouseMode                 = 2
+let NERDTreeShowHidden                = 1
+let NERDTreeQuitOnOpen                = 0
+let NERDTreeHijackNetrw               = 1
+let NERDTreeSortHiddenFirst           = 1
+let NERDTreeAutoDeleteBuffer          = 1
+let NERDTreeCaseSensitiveSort         = 1
+let NERDTreeHighlightCursorline       = 1
+let NERDTreeCascadeOpenSingleChildDir = 1
+" D/d 分屏打开文件
+let g:NERDTreeMapOpenSplit = 'D'
+let g:NERDTreeMapOpenVSplit = 'd'
+" }}}
+
+" vim-nerdtree-syntax-highlight配置 {{{
+let s:brown = '905532'
+let s:aqua =  '3AFFDB'
+let s:blue = '689FB6'
+let s:darkBlue = '44788E'
+let s:purple = '834F79'
+let s:red = 'AE403F'
+let s:beige = 'F5C06F'
+let s:yellow = 'F09F17'
+let s:orange = 'D4843E'
+let s:darkOrange = 'F16529'
+let s:pink = 'CB6F6F'
+let s:salmon = 'EE6E73'
+let s:green = '8FAA54'
+let s:lightGreen = '31B53E'
+let s:white = 'FFFFFF'
+let s:rspec_red = 'FE405F'
+let s:git_orange = 'F54D27'
+
+let g:NERDTreeExtensionHighlightColor = {}
+let g:NERDTreeExtensionHighlightColor['c'] = s:yellow
+let g:NERDTreeExtensionHighlightColor['python'] = s:green
+let g:NERDTreeExtensionHighlightColor['rust'] = s:orange
+
+let g:NERDTreeExactMatchHighlightColor = {}
+let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange
+let g:NERDTreeExactMatchHighlightColor['.ipynb'] = s:purple
+let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:brown
+
+let g:NERDTreePatternMatchHighlightColor = {}
+let g:NERDTreePatternMatchHighlightColor['.*.h$'] = s:pink
+let g:NERDTreePatternMatchHighlightColor['.*.rs$'] = s:salmon
+let g:NERDTreePatternMatchHighlightColor['.*.py$'] = s:red
+let g:NERDTreePatternMatchHighlightColor['.*_spec\.rb$'] = s:rspec_red
+let g:NERDTreePatternMatchHighlightColor['.*.toml$'] = s:aqua
+let g:NERDTreePatternMatchHighlightColor['.*.yml$'] = s:darkOrange
+
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+" }}}
+
+" nerdtree-git-plugin {{{
+let g:NERDTreeIndicatorMapCustom = {
+    \ 'Modified'  : '✹',
+    \ 'Staged'    : '✚',
+    \ 'Untracked' : '✭',
+    \ 'Renamed'   : '➜',
+    \ 'Unmerged'  : '═',
+    \ 'Deleted'   : '✖',
+    \ 'Dirty'     : '✗',
+    \ 'Clean'     : '✔︎',
+    \ 'Unknown'   : '?'
+    \ }
+" }}}
+
+set guifont=Knack\ Nerd\ Font:h13
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark

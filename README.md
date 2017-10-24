@@ -13,8 +13,14 @@ brew install python
 brew install tmux
 brew install the_silver_searcher    # Ag用来加快全文搜索速度
 brew install autojump
+brew install autoenv
+brew install fzf
 # 用来修复因为macOS Sierra而导致系统剪切板不能使用的问题
 brew install reattach-to-user-namespace
+brew install splint
+brew install llvm --with-toolchain
+brew tap caskroom/fonts
+brew cask install font-hack-nerd-font
 
 pip install neovim
 pip install virtualenv
@@ -130,7 +136,7 @@ ln -s /usr/local/Cellar/python/2.7.13_1/bin/python2 /usr/local/bin/python
 
   ```
   cd ~/.config/nvim/plugged/YouCompleteMe
-  ./install.py --gocode-completer --racer-completer
+  ./install.py --gocode-completer --racer-completer --clang-completer
   cmake -G "Unix Makefiles" . ~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp
   ```
 5. Tagbar支持Rust
