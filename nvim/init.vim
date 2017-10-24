@@ -4,7 +4,7 @@ set encoding=utf-8
 
 let t_Co = 256
 set mouse=a
-" set laststatus=2
+set laststatus=2
 
 let g:python_host_prog='/usr/local/bin/python'
 
