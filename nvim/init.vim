@@ -181,10 +181,10 @@ autocmd VimEnter * call TabPos_Initialize()
 call plug#begin()
 " Google Material 主题
 " Plug 'jdkanani/vim-material-theme'
-" Plug 'morhetz/gruvbox'
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
 " emacs dark主题
-Plug 'liuchengxu/space-vim-dark'
+" Plug 'liuchengxu/space-vim-dark'
+Plug 'morhetz/gruvbox'
 if (has("termguicolors"))
   set termguicolors
 endif
@@ -856,6 +856,10 @@ let g:indentLine_enabled = 1
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark
-" colorscheme molokai
-" colorscheme gruvbox
-colorscheme space-vim-dark
+" colorscheme material-theme
+let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_sign_column = 'bg0'
+colorscheme gruvbox
+" let g:space_vim_dark_background = 233
+" colorscheme space-vim-dark
+" hi Comment cterm=italic
