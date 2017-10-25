@@ -685,6 +685,7 @@ let g:ctrlsf_default_root = 'project'
 
 " Tagbar {{{
 nmap <F9> :TagbarToggle<CR>
+let g:tagbar_map_showproto = '<Space>p'
 inoremap <F9> <ESC>:TagbarToggle<CR>
 let g:tagbar_width=30	"窗口宽度的设置
 let g:tagbar_autofocus = 1
