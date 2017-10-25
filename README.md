@@ -15,6 +15,7 @@ brew install the_silver_searcher    # Ag用来加快全文搜索速度
 brew install autojump
 brew install autoenv
 brew install fzf
+brew install translate-shell    # 翻译
 # 用来修复因为macOS Sierra而导致系统剪切板不能使用的问题
 brew install reattach-to-user-namespace
 brew install splint

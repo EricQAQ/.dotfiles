@@ -190,7 +190,7 @@ if (has("termguicolors"))
 endif
 
 Plug 'junegunn/vim-emoji'                               " emoji表情
-Plug 'ianva/vim-youdao-translater'                      " 有道翻译
+Plug 'SvichkarevAnatoly/marshak.vim'                    " 翻译
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'     " fuzzy
 Plug 'mhinz/vim-startify'                               " 欢迎界面
 Plug 'itchyny/vim-cursorword'                           " cursor
@@ -272,10 +272,49 @@ let g:terminal_color_15 = '#ebdbb2'
 set completefunc=emoji#complete
 " }}}
 
-" vim-youdao-translater {{{
-vnoremap <silent> <C-T> :<C-u>Ydv<CR>
-nnoremap <silent> <C-T> :<C-u>Ydc<CR>
-noremap <leader>yd :<C-u>Yde<CR>
+" marshak.vim {{{
+let g:trans_source_lang = 'en'
+let g:trans_target_lang = 'zh'
+
+function! TransToEnglish(text)
+    let l:quatation_text = "\"" . a:text . "\""
+    let l:options =  'zh' . ":" . 'en' . " -b "
+    let l:command = g:trans_command . " " . l:options . l:quatation_text
+    " Run trans and get translation
+    silent let l:ret = system(l:command)
+    " Remove ^@
+    let l:ret = substitute(l:ret, '[[:cntrl:]]', '', 'g')
+    echom l:ret
+endfunction
+
+function! TransToChinese(text)
+    let l:quatation_text = "\"" . a:text . "\""
+    let l:options =  g:trans_source_lang . ":" . g:trans_target_lang . " -b "
+    let l:command = g:trans_command . " " . l:options . l:quatation_text
+    " Run trans and get translation
+    silent let l:ret = system(l:command)
+    " Remove ^@
+    let l:ret = substitute(l:ret, '[[:cntrl:]]', '', 'g')
+    echom l:ret
+endfunction
+
+function! ToEnglish()
+    let word = input("请输入中文(ZH - EN): ")
+    redraw!
+    call TransToEnglish(word)
+endfunction
+
+function! ToChinese()
+    let word = input("请输入英文(EN - ZH): ")
+    redraw!
+    call TransToEnglish(word)
+endfunction
+
+nnoremap <Space>t :call TransWord()<cr>         " 翻译当前单词
+nnoremap <Space>r :call TransLine()<cr>         " 翻译当前行
+vnoremap <Space>s :call TransSelected()<cr>     " 翻译选中区域
+nnoremap <Space>c :call ToEnglish()<cr>         " 输入中文翻译成英文
+nnoremap <Space>e :call ToChinese()<cr>         " 输入英文翻译成中文
 " }}}
 
 " fzf.vim {{{
