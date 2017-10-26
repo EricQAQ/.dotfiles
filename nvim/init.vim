@@ -278,7 +278,7 @@ let g:trans_target_lang = 'zh'
 
 function! TransToEnglish(text)
     let l:quatation_text = "\"" . a:text . "\""
-    let l:options =  'zh' . ":" . 'en' . " -b "
+    let l:options =  g:trans_target_lang . ":" . g:trans_source_lang . " -b "
     let l:command = g:trans_command . " " . l:options . l:quatation_text
     " Run trans and get translation
     silent let l:ret = system(l:command)
@@ -307,14 +307,19 @@ endfunction
 function! ToChinese()
     let word = input("请输入英文(EN - ZH): ")
     redraw!
-    call TransToEnglish(word)
+    call TransToChinese(word)
 endfunction
 
-nnoremap <Space>t :call TransWord()<cr>         " 翻译当前单词
-nnoremap <Space>r :call TransLine()<cr>         " 翻译当前行
-vnoremap <Space>s :call TransSelected()<cr>     " 翻译选中区域
-nnoremap <Space>c :call ToEnglish()<cr>         " 输入中文翻译成英文
-nnoremap <Space>e :call ToChinese()<cr>         " 输入英文翻译成中文
+" 翻译当前单词
+nnoremap <Space>t :call TransWord()<cr>
+" 翻译当前行
+nnoremap <Space>r :call TransLine()<cr>
+" 翻译选中区域
+vnoremap <Space>s :call TransSelected()<cr>
+" 输入中文翻译成英文
+nnoremap <Space>c :call ToEnglish()<cr>
+" 输入英文翻译成中文
+nnoremap <Space>e :call ToChinese()<cr>
 " }}}
 
 " fzf.vim {{{
