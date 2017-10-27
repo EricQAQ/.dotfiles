@@ -557,7 +557,7 @@ let g:NERDTreeIndicatorMapCustom = {
 
 " lightline配置 {{{
 let g:lightline = {
-  \ 'colorscheme': 'wombat',
+  \ 'colorscheme': 'DraculaPlus',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'easyfilename' ] ],
   \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -608,7 +608,7 @@ function! LightlineReadonly()
 endfunction
 
 function! LightlineFilename()
-  let fname = expand('%:p')
+  let fname = expand('%:h')
   return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
         \ fname =~ '__Tagbar__' ? g:lightline.fname :
         \ fname =~ 'NERD_tree' ? '' :
