@@ -600,23 +600,20 @@ function! MyLightLineLineInfo()
 endfunction
 
 function! LightlineModified()
-  return &ft =~ 'help' ? '' : &modified ? '✎' : &modifiable ? '' : '-'
+  return &ft =~ 'help' ? '' : &modified ? '♕' : &modifiable ? '' : '♛'
 endfunction
 
 function! LightlineReadonly()
-  return &ft !~? 'help' && &readonly ? '' : ''
+  return &ft !~? 'help' && &readonly ? ' ' : ''
 endfunction
 
 function! LightlineFilename()
   let fname = expand('%:h')
-  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-        \ fname =~ '__Tagbar__' ? g:lightline.fname :
+  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? '' :
+        \ fname =~ '__Tagbar__' ? '' :
         \ fname =~ 'NERD_tree' ? '' :
         \ fname =~ 'FZF'? 'FZF Search' :
-        \ &ft == 'unite' ? unite#get_status_string() :
-        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+        \ fname == '.' ?  '' : fname
 endfunction
 
 function! LightlineEasyFilename()
@@ -626,7 +623,7 @@ function! LightlineEasyFilename()
         \ fname =~ 'NERD_tree' ? '' :
         \ fname =~ 'FZF'? '' :
         \ &ft == 'unite' ? '' :
-        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != LightlineReadonly() ? LightlineReadonly() : '') .
         \ ('' != fname ? fname : '') .
         \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
