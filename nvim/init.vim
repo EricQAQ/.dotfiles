@@ -375,6 +375,9 @@ let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
 " }}}
 
+" vim-fugitive
+nmap <Space>g :G
+
 " dash.vim {{{
 nmap <silent> <leader>t <Plug>DashSearch
 nmap <silent> <leader>y <Plug>DashGlobalSearch

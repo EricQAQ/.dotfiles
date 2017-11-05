@@ -32,7 +32,7 @@ pip install pygments
 
 ```
 brew link python
-ln -s /usr/local/Cellar/python/2.7.13_1/bin/python2 /usr/local/bin/python
+ln -s /usr/local/bin/python2 /usr/local/bin/python
 ```
 
 ## 2. oh-my-zsh
