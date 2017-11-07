@@ -413,12 +413,14 @@ let g:racer_cmd = "/Users/eric/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 " 跳转到定义
 au FileType rust nmap <C-q> <Plug>(rust-def)
+" 跳转到定义, 新tab显示
+au FileType rust nmap <C-w> :tab split<CR>:call racer#GoToDefinition()<CR>
 " 跳转到定义, 横屏显示
-au FileType rust nmap <C-w> <Plug>(rust-def-split)
+" au FileType rust nmap <C-w> <Plug>(rust-def-split)
 " 跳转到定义, 竖屏显示
 au FileType rust nmap <C-e> <Plug>(rust-def-vertical)
 " 跳转到文档
-au FileType rust nmap <C-p> <Plug>(rust-doc)
+au FileType rust nmap <S-k> <Plug>(rust-doc)
 " }}}
 
 " vim-go {{{
