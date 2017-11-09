@@ -189,6 +189,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+Plug 'tyru/open-browser.vim'                            " url跳转
 Plug 'junegunn/vim-emoji'                               " emoji表情
 Plug 'SvichkarevAnatoly/marshak.vim'                    " 翻译
 Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'     " fuzzy
@@ -268,6 +269,14 @@ let g:terminal_color_15 = '#ebdbb2'
 " ========================================================================================
 " ========================================插件配置========================================
 " ========================================================================================
+
+" open-browser.vim {{{
+let g:netrw_nogx = 1
+nmap <Space>o <Plug>(openbrowser-smart-search)      " 如果光标附近是url, 则访问, 如果不是, 则搜索
+vmap <Space>o <Plug>(openbrowser-smart-search)      " 如果光标附近是url, 则访问, 如果不是, 则搜索
+nmap <Space>f :OpenBrowserSearch                    " 手动搜索
+" }}}
+
 " vim-emoji {{{
 set completefunc=emoji#complete
 " }}}

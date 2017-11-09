@@ -22,11 +22,13 @@ brew install splint
 brew install llvm --with-toolchain
 brew tap caskroom/fonts
 brew cask install font-hack-nerd-font
+brew install mpg123
 
 pip install neovim
 pip install virtualenv
 pip install jedi
 pip install pygments
+pip install NetEase-MusicBox
 ```
 注意设置brew安装的python为默认python(替换掉mac系统自带的python):
 
