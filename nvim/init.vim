@@ -113,10 +113,10 @@ if has("autocmd")
 endif
 
 " ctrl-c 复制, ctrl-v 粘贴, ctrl-x 剪切, ctrl-a 全选
-" map <C-c> y  
+" map <C-c> y
 " map <C-X> d
 " map <C-v> p
-" map <C-A> <Esc>ggVG 
+" map <C-A> <Esc>ggVG
 
 " 复制到剪切板
 set clipboard=unnamed " 更新至macOS Sierra之后, 系统剪切板出现问题, 用这个修复
@@ -168,14 +168,14 @@ function! TabPos_ActivateBuffer(num)
     exe "tabfirst"
     exe "tabnext" s:count
 endfunction
- 
+
 function! TabPos_Initialize()
 for i in range(1, 9)
         exe "map <leader>" . i . " :call TabPos_ActivateBuffer(" . i . ")<CR>"
     endfor
     exe "map <leader>0 :call TabPos_ActivateBuffer(10)<CR>"
 endfunction
- 
+
 autocmd VimEnter * call TabPos_Initialize()
 
 call plug#begin()
@@ -189,6 +189,8 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+Plug 't9md/vim-choosewin'                               " 快速切换窗口
+Plug 'bronson/vim-trailing-whitespace'                  " 突出行尾空格
 Plug 'tyru/open-browser.vim'                            " url跳转
 Plug 'junegunn/vim-emoji'                               " emoji表情
 Plug 'SvichkarevAnatoly/marshak.vim'                    " 翻译
@@ -199,7 +201,6 @@ Plug 'terryma/vim-multiple-cursors'                     " 光标多选
 Plug 'rizzatti/dash.vim'                                " Dash支持
 Plug 'ekalinin/Dockerfile.vim'                          " dockerfile语法支持
 Plug 'cespare/vim-toml'                                 " toml语法支持
-Plug 'Rykka/riv.vim'                                    " rst语法支持
 Plug 'solarnz/thrift.vim'                               " thrift语法支持
 Plug 'pearofducks/ansible-vim'                          " ansible语法支持
 Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
@@ -221,11 +222,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'                               " 状态栏支持显示当前git分支
 Plug 'majutsushi/tagbar'                                " 显示文件中的类、函数、变量
-Plug 'othree/xml.vim'                                   " XML
-Plug 'othree/html5.vim'                                 " HTML
 Plug 'scrooloose/syntastic'                             " 语法检查
 Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
-Plug 'plasticboy/vim-markdown', {'for': 'markdown'}     " Markdown
 Plug 'scrooloose/nerdcommenter'                         " 快速注释
 Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
 Plug 'docunext/closetag.vim'                            " 自动补全html/xml标签
@@ -270,11 +268,17 @@ let g:terminal_color_15 = '#ebdbb2'
 " ========================================插件配置========================================
 " ========================================================================================
 
+" choosewin {{{
+nmap <Space>s <Plug>(choosewin)
+" }}}
 " open-browser.vim {{{
 let g:netrw_nogx = 1
-nmap <Space>o <Plug>(openbrowser-smart-search)      " 如果光标附近是url, 则访问, 如果不是, 则搜索
-vmap <Space>o <Plug>(openbrowser-smart-search)      " 如果光标附近是url, 则访问, 如果不是, 则搜索
-nmap <Space>f :OpenBrowserSearch                    " 手动搜索
+" 如果光标附近是url, 则访问, 如果不是, 则搜索
+nmap <Space>o <Plug>(openbrowser-smart-search)
+" 如果光标附近是url, 则访问, 如果不是, 则搜索
+vmap <Space>o <Plug>(openbrowser-smart-search)
+" 手动搜索
+nmap <Space>f :OpenBrowserSearch 
 " }}}
 
 " vim-emoji {{{
@@ -456,7 +460,7 @@ au FileType go nmap <leader>c <Plug>(go-coverage)
 let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
 let g:ycm_key_list_previous_completion = ['<C-M>']
 let g:ycm_show_diagnostics_ui = 0
-let g:ycm_rust_src_path = 
+let g:ycm_rust_src_path =
     \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
 let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
@@ -731,7 +735,7 @@ let g:ctrlp_follow_symlinks=1
 
 " ctrlsf.vim {{{
 let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
-nmap <leader>s :CtrlSF
+nmap <leader>s :CtrlSF 
 nmap <leader>o :CtrlSFOpen<CR>
 nmap ss :CtrlSF <C-R><C-W><CR>
 vnoremap ss y:CtrlSF <C-R>"<CR>
@@ -863,15 +867,6 @@ let g:zoomwintab_hidetabbar = 0
 nnoremap <Space>w :ZoomWinTabToggle<CR>
 " }}}
 
-" vim-markdown {{{
-let g:vim_markdown_toc_autofit      = 1
-let g:vim_markdown_frontmatter      = 1
-let g:vim_markdown_json_frontmatter = 1 " 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
-set expandtab
-let g:vim_markdown_toml_frontmatter = 1
-let g:vim_markdown_folding_disabled = 1
-" }}}
-
 " 快速注释nerdcommenter {{{
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -908,6 +903,9 @@ nmap [n <Plug>GitGutterPrevHunk
 " 缩进指示indentLine {{{
 let g:indentLine_char = '┆'
 let g:indentLine_enabled = 1
+" 解决md以及json文件下因为conceallevel导致的引号等符号省略问题
+autocmd FileType markdown let g:indentLine_enabled = 0
+autocmd FileType json let g:indentLine_enabled = 0
 "}}}
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
