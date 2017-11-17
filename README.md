@@ -139,7 +139,7 @@ ln -s /usr/local/bin/python2 /usr/local/bin/python
 
   ```
   cd ~/.config/nvim/plugged/YouCompleteMe
-  ./install.py --gocode-completer --racer-completer --clang-completer
+  ./install.py --go-completer --rust-completer --clang-completer
   cmake -G "Unix Makefiles" . ~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp
   ```
 5. Tagbar支持Rust

@@ -209,7 +209,7 @@ Plug 'davidhalter/jedi-vim'                             " python支持
 Plug 'kh3phr3n/python-syntax'                           " python支持
 Plug 'rust-lang/rust.vim'                               " Rust支持
 Plug 'racer-rust/vim-racer'                             " Rust自动补全, racer
-Plug 'fatih/vim-go'                                     " golang支持
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }     " golang支持
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'Valloric/YouCompleteMe'                           " 自动补全
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
@@ -437,6 +437,8 @@ au FileType rust nmap <S-k> <Plug>(rust-doc)
 " }}}
 
 " vim-go {{{
+let g:go_fmt_autosave = 0
+let g:go_def_mapping_enabled = 0
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_fields = 1
@@ -447,13 +449,14 @@ let g:go_highlight_build_constraints = 1
 let g:go_list_type = "quickfix"
 
 " go run相关配置
-au FileType go nmap <leader>rt <Plug>(go-run-tab)
-au FileType go nmap <Leader>rs <Plug>(go-run-split)
-au FileType go nmap <Leader>rv <Plug>(go-run-vertical)
+au FileType go nmap gf :GoFmt<CR>
+au FileType go nmap gt <Plug>(go-run-tab)
+au FileType go nmap gs <Plug>(go-run-split)
+au FileType go nmap gv <Plug>(go-run-vertical)
 
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap gb <Plug>(go-build)
+au FileType go nmap gt <Plug>(go-test)
+au FileType go nmap gc <Plug>(go-coverage)
 " }}}
 
 " YouCompleteMe {{{
@@ -878,6 +881,7 @@ let g:NERDAltDelims_go = 1
 let g:NERDCustomDelimiters = {
     \ 'rust': { 'left': '//' },
     \ 'c': { 'left': '//' },
+    \ 'go': { 'left': '//'},
 \ }
 " }}}
 

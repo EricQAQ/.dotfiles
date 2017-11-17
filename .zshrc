@@ -92,22 +92,20 @@ source $ZSH/oh-my-zsh.sh
 alias vim='/usr/local/bin/nvim'
 alias tmux='tmux -2'
 alias cat='colorize'
-export http_proxy=http://127.0.0.1:1087
-export https_proxy=http://127.0.0.1:1087
 export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 
 export CARGO_HOME="$HOME/.cargo"
 
-# export GOPATH="$HOME/go_code"
+export GOPATH="$HOME/go_lib"
 
 export PATH=$(cat /etc/paths | xargs | tr " " :)
-# export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 tic $TERM.ti
-#export PATH="/Users/Eric/Library/Python/2.7/bin:$PATH"
-#. /Users/eric/Library/Python/2.7/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+export http_proxy='127.0.0.1:1087'
+export https_proxy='127.0.0.1:1087'
+# export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
 source /usr/local/opt/autoenv/activate.sh
