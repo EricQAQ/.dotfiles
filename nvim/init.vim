@@ -436,29 +436,6 @@ au FileType rust nmap <C-e> <Plug>(rust-def-vertical)
 au FileType rust nmap <S-k> <Plug>(rust-doc)
 " }}}
 
-" vim-go {{{
-let g:go_fmt_autosave = 0
-let g:go_def_mapping_enabled = 0
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-let g:go_list_type = "quickfix"
-
-" go run相关配置
-au FileType go nmap gf :GoFmt<CR>
-au FileType go nmap gt <Plug>(go-run-tab)
-au FileType go nmap gs <Plug>(go-run-split)
-au FileType go nmap gv <Plug>(go-run-vertical)
-
-au FileType go nmap gb <Plug>(go-build)
-au FileType go nmap gt <Plug>(go-test)
-au FileType go nmap gc <Plug>(go-coverage)
-" }}}
-
 " YouCompleteMe {{{
 let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
 let g:ycm_key_list_previous_completion = ['<C-M>']
@@ -485,6 +462,30 @@ endif
 if !empty(glob("~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
     let g:ycm_global_ycm_extra_conf = "~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 endif
+" }}}
+
+" vim-go {{{
+let g:go_fmt_autosave = 0
+let g:go_def_mapping_enabled = 0
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_list_type = "quickfix"
+
+" go run相关配置
+nnoremap <C-w> :<C-U>call go#def#Jump("tab")<CR>
+au FileType go nmap gf :GoFmt<CR>
+au FileType go nmap gt <Plug>(go-run-tab)
+au FileType go nmap gs <Plug>(go-run-split)
+au FileType go nmap gv <Plug>(go-run-vertical)
+
+au FileType go nmap gb <Plug>(go-build)
+au FileType go nmap gt <Plug>(go-test)
+au FileType go nmap gc <Plug>(go-coverage)
 " }}}
 
 " vim-devicons {{{
