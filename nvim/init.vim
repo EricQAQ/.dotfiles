@@ -194,7 +194,9 @@ Plug 'bronson/vim-trailing-whitespace'                  " 突出行尾空格
 Plug 'tyru/open-browser.vim'                            " url跳转
 Plug 'junegunn/vim-emoji'                               " emoji表情
 Plug 'SvichkarevAnatoly/marshak.vim'                    " 翻译
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'     " fuzzy
+Plug '/usr/local/opt/fzf'                               " fzf
+Plug 'junegunn/fzf.vim'                                 " fzf
+Plug 'rking/ag.vim'                                     " Ag全文搜索
 Plug 'mhinz/vim-startify'                               " 欢迎界面
 Plug 'itchyny/vim-cursorword'                           " cursor
 Plug 'terryma/vim-multiple-cursors'                     " 光标多选
@@ -214,7 +216,6 @@ Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/sy
 Plug 'Valloric/YouCompleteMe'                           " 自动补全
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
 Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
-Plug 'dyng/ctrlsf.vim'                                  " 全局搜索某个特定的字符
 " 树形文件查看插件
 Plug 'scrooloose/nerdtree',                         { 'on': 'NERDTreeToggle' }
 Plug 'ryanoasis/vim-devicons'
@@ -335,6 +336,13 @@ nnoremap <Space>c :call ToEnglish()<cr>
 nnoremap <Space>e :call ToChinese()<cr>
 " }}}
 
+" ag.vim {{{
+nmap <leader>s :Ag 
+let g:ag_working_path_mode="r"
+let g:ag_prg="Ag --vimgrep --smart-case"
+let g:ag_highlight=1
+" }}}
+
 " fzf.vim {{{
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -348,10 +356,14 @@ xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
 " Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+" 搜索单词, 补全后插入
+imap <c-t>w <plug>(fzf-complete-word)
+" 搜索路径, 补全后插入
+imap <c-t>e <plug>(fzf-complete-path)
+" 搜索当前文件的每行内容, 补全后插入
+imap <c-t>r <plug>(fzf-complete-line)
+" 搜索路径, 补全后插入
+imap <c-t>f <plug>(fzf-complete-file-ag)
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
@@ -735,15 +747,6 @@ let g:ctrlp_max_height=15
 let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
-" }}}
-
-" ctrlsf.vim {{{
-let g:ctrlsf_ackprg = 'ag'  " 使用Ag, 加快搜索速度
-nmap <leader>s :CtrlSF 
-nmap <leader>o :CtrlSFOpen<CR>
-nmap ss :CtrlSF <C-R><C-W><CR>
-vnoremap ss y:CtrlSF <C-R>"<CR>
-let g:ctrlsf_default_root = 'project'
 " }}}
 
 " Tagbar {{{

@@ -96,7 +96,7 @@ export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/ru
 
 export CARGO_HOME="$HOME/.cargo"
 
-export GOPATH="$HOME/go_lib"
+export GOPATH="$HOME/go"
 
 export PATH=$(cat /etc/paths | xargs | tr " " :)
 export PATH="$PATH:$GOPATH/bin"
@@ -106,6 +106,7 @@ infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 tic $TERM.ti
 export http_proxy='127.0.0.1:1087'
 export https_proxy='127.0.0.1:1087'
+export ALL_PROXY='socks5://127.0.0.1:1086'
 # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
 source /usr/local/opt/autoenv/activate.sh
