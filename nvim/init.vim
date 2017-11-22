@@ -489,7 +489,7 @@ let g:go_highlight_build_constraints = 1
 let g:go_list_type = "quickfix"
 
 " go run相关配置
-nnoremap <C-w> :<C-U>call go#def#Jump("tab")<CR>
+au FileType go nnoremap <C-w> :<C-U>call go#def#Jump("tab")<CR>
 au FileType go nmap gf :GoFmt<CR>
 au FileType go nmap gt <Plug>(go-run-tab)
 au FileType go nmap gs <Plug>(go-run-split)
