@@ -92,6 +92,7 @@ source $ZSH/oh-my-zsh.sh
 alias vim='/usr/local/bin/nvim'
 alias tmux='tmux -2'
 alias cat='colorize'
+alias virtualenv='virtualenv --system-site-packages'
 export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 
 export CARGO_HOME="$HOME/.cargo"

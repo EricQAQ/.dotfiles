@@ -197,6 +197,7 @@ Plug 'SvichkarevAnatoly/marshak.vim'                    " 翻译
 Plug '/usr/local/opt/fzf'                               " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf
 Plug 'rking/ag.vim'                                     " Ag全文搜索
+Plug 'Chun-Yang/vim-action-ag'                          " Ag搜索
 Plug 'mhinz/vim-startify'                               " 欢迎界面
 Plug 'itchyny/vim-cursorword'                           " cursor
 Plug 'terryma/vim-multiple-cursors'                     " 光标多选
@@ -341,6 +342,12 @@ nmap <leader>s :Ag
 let g:ag_working_path_mode="r"
 let g:ag_prg="Ag --vimgrep --smart-case"
 let g:ag_highlight=1
+" }}}
+
+" vim-action-ag {{{
+let g:vim_action_ag_escape_chars = '#%.^$*+?()[{}]\\|'
+nmap ss <Plug>AgActionWord
+vmap ss <Plug>AgActionVisual
 " }}}
 
 " fzf.vim {{{

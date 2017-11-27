@@ -29,6 +29,7 @@ pip install virtualenv
 pip install jedi
 pip install pygments
 pip install NetEase-MusicBox
+pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
 ```
 注意设置brew安装的python为默认python(替换掉mac系统自带的python):
 
