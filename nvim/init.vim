@@ -227,6 +227,7 @@ Plug 'majutsushi/tagbar'                                " 显示文件中的类�
 Plug 'maximbaz/lightline-ale'                           " lightline的ale插件, 用于展示lint信息
 Plug 'w0rp/ale'                                         " 异步语法检查
 Plug 'luochen1990/rainbow'                              " 括号配对显示
+Plug 'lilydjwg/colorizer'                               " 颜色显示器
 Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
 Plug 'scrooloose/nerdcommenter'                         " 快速注释
 Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
@@ -832,10 +833,10 @@ let g:tagbar_type_elixir = {
 " w0rp/ale {{{
 let g:ale_sign_column_always = 1    " 保持侧边栏可见
 let g:ale_set_highlights = 1
-let g:ale_sign_error = ''            " 设置错误符号
-let g:ale_sign_warning = ''          " 设置警告符号
-let g:ale_echo_msg_error_str = '  '
-let g:ale_echo_msg_warning_str = '  '
+let g:ale_sign_error = ''            " 错误符号
+let g:ale_sign_warning = ''          " 警告符号
+let g:ale_sign_style_error = ''      " 风格错误符号
+let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " }}}
 
@@ -918,6 +919,7 @@ set background=dark
 " colorscheme material-theme
 let g:gruvbox_contrast_dark = 'soft'
 let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_invert_selection = 0
 colorscheme gruvbox
 " let g:space_vim_dark_background = 233
 " colorscheme space-vim-dark
