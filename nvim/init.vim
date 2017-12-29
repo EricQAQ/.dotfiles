@@ -224,7 +224,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin',                 { 'on': 'NERDTreeToggle' }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'                               " 状态栏支持显示当前git分支
 Plug 'majutsushi/tagbar'                                " 显示文件中的类、函数、变量
-Plug 'scrooloose/syntastic'                             " 语法检查
+Plug 'maximbaz/lightline-ale'                           " lightline的ale插件, 用于展示lint信息
+Plug 'w0rp/ale'                                         " 异步语法检查
+Plug 'luochen1990/rainbow'                              " 括号配对显示
 Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
 Plug 'scrooloose/nerdcommenter'                         " 快速注释
 Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
@@ -597,11 +599,14 @@ let g:NERDTreeIndicatorMapCustom = {
 " }}}
 
 " lightline配置 {{{
+let g:lightline#ale#indicator_ok = '☻'
+let g:lightline#ale#indicator_errors = ''
+let g:lightline#ale#indicator_warnings = ''
 let g:lightline = {
   \ 'colorscheme': 'DraculaPlus',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'easyfilename' ] ],
-  \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+  \   'right': [ ['linter_errors', 'linter_warnings', 'linter_ok'], ['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'] ]
   \ },
   \ 'component_function': {
   \   'fugitive': 'LightlineFugitive',
@@ -615,11 +620,14 @@ let g:lightline = {
   \   'lineinfo': 'MyLightLineLineInfo'
   \ },
   \ 'component_expand': {
-  \   'syntastic': 'SyntasticStatuslineFlag',
+  \   'linter_warnings': 'lightline#ale#warnings',
+  \   'linter_errors': 'lightline#ale#errors',
+  \   'linter_ok': 'lightline#ale#ok',
   \ },
   \ 'component_type': {
-  \   'syntastic': 'error',
-  \ },
+  \   'linter_warnings': 'warning',
+  \   'linter_errors': 'error',
+  \},
   \ 'separator': { 'left': '',  'right': ''},
   \ 'subseparator': { 'left': '', 'right': '' }
   \ }
@@ -726,15 +734,6 @@ function! TagbarStatusFunc(current, sort, fname, ...) abort
   return lightline#statusline(0)
 endfunction
 
-augroup AutoSyntastic
-  autocmd!
-  autocmd BufWritePost *.c,*.cpp,*.rs,*.py call s:syntastic()
-augroup END
-function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
-endfunction
-
 " let g:vimfiler_force_overwrite_statusline = 0
 " let g:vimshell_force_overwrite_statusline = 0
 let g:unite_force_overwrite_statusline = 0
@@ -830,49 +829,40 @@ let g:tagbar_type_elixir = {
 \ }
 " }}}
 
-" Syntastic {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" w0rp/ale {{{
+let g:ale_sign_column_always = 1    " 保持侧边栏可见
+let g:ale_set_highlights = 1
+let g:ale_sign_error = ''            " 设置错误符号
+let g:ale_sign_warning = ''          " 设置警告符号
+let g:ale_echo_msg_error_str = '  '
+let g:ale_echo_msg_warning_str = '  '
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" }}}
 
-" 每次自动调用:SyntasticSetLocList, 将错误覆盖
-let g:syntastic_always_populate_loc_list=1
-" 自动拉起|关闭错误窗口，不需要手动调用:Errors
-let g:syntastic_auto_loc_list = 0
-" 每次保存的时候做检查
-let g:syntastic_check_on_wq = 1
-let g:syntastic_check_on_open = 1
-" 设置错误符号
-let g:syntastic_error_symbol='✘'
-" 设置警告符号
-let g:syntastic_warning_symbol='⚠'
-" 设置风格错误|警告符号
-let g:syntastic_style_error_symbol = '➔'
-let g:syntastic_style_warning_symbol = '➜'
-let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['go','python', 'rust', 'c'] }
-" python语法检查
-let g:syntastic_python_checkers=['python', 'flake8', 'pyflakes', 'pep8']
-" go语法检查
-let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
-" rust语法检查
-let g:syntastic_rust_checkers = ['rustc', 'rustfmt']
-" C语法检查
-let g:syntastic_c_compiler = ['clang']
-let g:syntastic_c_checkers = ['clang_check', 'splint', 'make']
-
-" 高亮
-let g:syntastic_enable_highlighting=1
-" 合并错误输出
-let g:syntasitc_aggregate_errors = 1
-
-" 调出错误框
-nmap <leader>e :Errors<CR>
-" 关闭错误框
-nmap <leader>c :lclose<CR>
-" 跳转到下一个错误
-nmap <leader>[ :lnext<CR>
-" 跳转到上一个错误
-nmap <leader>] :lprevious<CR>
+" luochen1990/rainbow {{{
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+	\	'guifgs': ['magenta', 'powderblue', 'lightcoral', 'greenyellow'],
+	\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+	\	'operators': '_,_',
+	\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+	\	'separately': {
+	\		'*': {},
+	\		'tex': {
+	\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+	\		},
+	\		'lisp': {
+	\			'guifgs': ['gold', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+	\		},
+	\		'vim': {
+	\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+	\		},
+	\		'html': {
+	\			'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+	\		},
+	\		'css': 0,
+	\	}
+	\}
 " }}}
 
 " zoomwintab {{{
