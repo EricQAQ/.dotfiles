@@ -838,6 +838,11 @@ let g:ale_sign_warning = ''          " 警告符号
 let g:ale_sign_style_error = ''      " 风格错误符号
 let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_linters = {'rust': ['cargo', 'rustc']}
+let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
+let g:ale_list_window_size = 6
+nnoremap <C-m> :lopen<CR>
+
 " }}}
 
 " luochen1990/rainbow {{{
