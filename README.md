@@ -27,6 +27,7 @@ brew install mpg123
 pip install neovim
 pip install virtualenv
 pip install jedi
+pip3 install --user neovim jedi psutil setproctitle
 pip install pygments
 pip install NetEase-MusicBox
 pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
@@ -108,6 +109,15 @@ ln -s /usr/local/bin/python2 /usr/local/bin/python
         `ln -s mirrors.ustc.edu.cn-61ef6e0cd06fb9b8 github.com-soft-link`
     3. 安装racer: cargo install racer
 
+4. 安装rls(可选)
+
+    ```
+    rustup install nightly
+    rustup component add rls-preview --toolchain nightly
+    rustup component add rust-analysis --toolchain nightly
+    rustup component add rust-src --toolchain nightly
+    ```
+
 
 ## 5. go
 安装部分工具
@@ -133,10 +143,11 @@ ln -s /usr/local/bin/python2 /usr/local/bin/python
 3. 安装相应插件
 
   ```
-  nvim
-  :PlugInstall
+  nvim +PlugInstall +UpdateRemotePlugins +qa
   ```
 4. YouCompleteMe
+
+    **已废弃, 使用NCM异步补全替代YCM自动补全; 使用vim-go, jedi-vim, clang_complete替代YCM代码跳转**
 
   ```
   cd ~/.config/nvim/plugged/YouCompleteMe
@@ -145,6 +156,11 @@ ln -s /usr/local/bin/python2 /usr/local/bin/python
   ```
 5. Tagbar支持Rust
     把`.ctags`文件拷贝到用户目录下(`~`)
+6. 安装llvm(clang_comple需要使用)
+
+  ```
+  brew install llvm --with-graphviz --with-lldb --with-python --with-toolchain
+  ```
 
 
 ## 7. 字体

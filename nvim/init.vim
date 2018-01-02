@@ -146,10 +146,6 @@ inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
-" nnoremap <C-j> <C-W>j
-" nnoremap <C-k> <C-W>k
-" nnoremap <C-h> <C-W>h
-" nnoremap <C-l> <C-W>l
 
 " 调整缩进后自动选中，方便再次操作
 vnoremap < <gv
@@ -208,13 +204,16 @@ Plug 'solarnz/thrift.vim'                               " thrift语法支持
 Plug 'pearofducks/ansible-vim'                          " ansible语法支持
 Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
 Plug 'slashmili/alchemist.vim'                          " elixir支持
-Plug 'davidhalter/jedi-vim'                             " python支持
-Plug 'kh3phr3n/python-syntax'                           " python支持
+Plug 'Rip-Rip/clang_complete'
+Plug 'kh3phr3n/python-syntax'                           " python语法高亮支持
+Plug 'davidhalter/jedi-vim'                             " python代码跳转
 Plug 'rust-lang/rust.vim'                               " Rust支持
 Plug 'racer-rust/vim-racer'                             " Rust自动补全, racer
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }     " golang支持
 Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'Valloric/YouCompleteMe'                           " 自动补全
+Plug 'roxma/ncm-clang'                                  " C异步补全
+Plug 'roxma/nvim-cm-racer'                              " rust异步补全
+Plug 'roxma/nvim-completion-manager'                    " 异步补全插件
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
 Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
 " 树形文件查看插件
@@ -428,11 +427,25 @@ nmap ex :IEx
 nmap mi :Mix 
 " }}}
 
+" clang_complete {{{
+let g:clang_library_path = '/usr/local/Cellar/llvm/5.0.0/lib'
+au FileType c nmap <C-w> :tab split<CR>:call g:ClangGotoDeclaration()<CR>
+" }}}
+
 " python-syntax {{{
 let python_self_cls_highlight = 1
 let python_no_parameter_highlight = 1
 let python_no_operator_highlight = 1
 " let python_highlight_all = 1
+" }}}
+
+" jedi-vim {{{
+let g:jedi#completions_enabled = 0  " 关闭自动补全
+let jedi#use_tabs_not_buffers = 1   " 使用tab打开跳转函数
+let g:jedi#popup_on_dot = 0
+
+let g:jedi#goto_command = "<C-w>"           " 跳转到定义处
+let g:jedi#documentation_command = "K"      " 相关文档
 " }}}
 
 " rust.vim {{{
@@ -458,34 +471,6 @@ au FileType rust nmap <C-e> <Plug>(rust-def-vertical)
 au FileType rust nmap <S-k> <Plug>(rust-doc)
 " }}}
 
-" YouCompleteMe {{{
-let g:ycm_key_list_select_completion = ['<TAB>', '<C-N>']
-let g:ycm_key_list_previous_completion = ['<C-M>']
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_rust_src_path =
-    \ "~/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
-let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-" 开启语法关键字补全
-let g:ycm_seed_identifiers_with_syntax=1
-" 跳转到定义处, 在新tab打开
-let g:ycm_goto_buffer_command = 'new-tab'
-nnoremap <C-w> :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <C-q> :YcmCompleter GoToDeclaration<CR>
-
-" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
-" old version
-if !empty(glob("~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-    let g:ycm_global_ycm_extra_conf = "~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-endif
-" new version
-if !empty(glob("~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-    let g:ycm_global_ycm_extra_conf = "~/.config/nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-endif
-" }}}
-
 " vim-go {{{
 let g:go_fmt_autosave = 0
 let g:go_def_mapping_enabled = 0
@@ -508,6 +493,18 @@ au FileType go nmap gv <Plug>(go-run-vertical)
 au FileType go nmap gb <Plug>(go-build)
 au FileType go nmap gt <Plug>(go-test)
 au FileType go nmap gc <Plug>(go-coverage)
+" }}}
+
+" nvim-completion-manager {{{
+let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
+" Close the prevew window automatically on InsertLeave
+" https://github.com/davidhalter/jedi-vim/blob/eba90e615d73020365d43495fca349e5a2d4f995/ftplugin/python/jedi.vim#L44
+augroup ncm_preview
+    autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
+augroup END
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-m> pumvisible() ? "\<C-p>" : "\<C-m>"
 " }}}
 
 " vim-devicons {{{
