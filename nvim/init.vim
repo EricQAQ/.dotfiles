@@ -764,14 +764,15 @@ let g:tagbar_sort = 0
 let g:tagbar_type_rust = {
 \ 'ctagstype' : 'rust',
 \ 'kinds' : [
+    \'m:modules,module names',
     \'T:types,type definitions',
-    \'f:functions,function definitions',
+    \'c:consts,static constants',
     \'g:enum,enumeration names',
     \'s:structure names',
-    \'m:modules,module names',
-    \'c:consts,static constants',
     \'t:traits,traits',
     \'i:impls,trait implementations',
+    \'f:functions,function definitions',
+    \'d:macros,macro definitions',
 \]
 \ }
 
