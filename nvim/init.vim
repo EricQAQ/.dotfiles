@@ -366,16 +366,16 @@ omap <leader><tab> <plug>(fzf-maps-o)
 
 " Insert mode completion
 " 搜索单词, 补全后插入
-imap <c-t>w <plug>(fzf-complete-word)
+imap <c-w> <plug>(fzf-complete-word)
 " 搜索路径, 补全后插入
-imap <c-t>e <plug>(fzf-complete-path)
+imap <c-p> <plug>(fzf-complete-path)
 " 搜索当前文件的每行内容, 补全后插入
-imap <c-t>r <plug>(fzf-complete-line)
+imap <c-f> <plug>(fzf-complete-line)
 " 搜索路径, 补全后插入
-imap <c-t>f <plug>(fzf-complete-file-ag)
+imap <c-s> <plug>(fzf-complete-file-ag)
 
-" Advanced customization using autoload functions
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+" 根据光标位置的字母进行自动补全
+inoremap <expr> <C-c> fzf#vim#complete#word({'left': '15%'})
 " }}}
 
 " vim-startify {{{
@@ -502,7 +502,7 @@ let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 augroup ncm_preview
     autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
 augroup END
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-m> pumvisible() ? "\<C-p>" : "\<C-m>"
 " }}}
@@ -835,6 +835,8 @@ let g:ale_sign_warning = ''          " 警告符号
 let g:ale_sign_style_error = ''      " 风格错误符号
 let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_python_pylint_use_global = 1
+let g:ale_python_flake8_use_global = 1
 let g:ale_linters = {'rust': ['cargo', 'rustc']}
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
