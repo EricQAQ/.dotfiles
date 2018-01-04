@@ -423,12 +423,12 @@ let g:alchemist_tag_map = '<C-q>'
 let g:alchemist_tag_stack_map = '<C-w>'
 let g:alchemist_iex_term_size = 15
 let g:alchemist_iex_term_split = 'split'
-nmap ex :IEx 
+nmap tx :IEx 
 nmap mi :Mix 
 " }}}
 
 " clang_complete {{{
-let g:clang_library_path = '/usr/local/Cellar/llvm/5.0.0/lib'
+let g:clang_library_path = '/usr/local/Cellar/llvm/5.0.1/lib'
 au FileType c nmap <C-w> :tab split<CR>:call g:ClangGotoDeclaration()<CR>
 " }}}
 
@@ -841,8 +841,7 @@ let g:ale_python_flake8_use_global = 1
 let g:ale_linters = {'rust': ['cargo', 'rustc']}
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
-nnoremap <C-m> :lopen<CR>
-
+nnoremap <C-l> :lopen<CR>
 " }}}
 
 " luochen1990/rainbow {{{
