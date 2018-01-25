@@ -174,6 +174,9 @@ endfunction
 
 autocmd VimEnter * call TabPos_Initialize()
 
+" vim下查看man page
+nmap <Space>m :Man 
+
 call plug#begin()
 " Google Material 主题
 " Plug 'jdkanani/vim-material-theme'
@@ -230,6 +233,7 @@ Plug 'lilydjwg/colorizer'                               " 颜色显示器
 Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
 Plug 'scrooloose/nerdcommenter'                         " 快速注释
 Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
+" Plug 'tpope/vim-surround'                               " 括号编辑
 Plug 'docunext/closetag.vim'                            " 自动补全html/xml标签
 Plug 'easymotion/vim-easymotion'                        " 快速跳转
 Plug 'airblade/vim-gitgutter'                           " 实时展示文件修改的行
@@ -381,7 +385,9 @@ inoremap <expr> <C-c> fzf#vim#complete#word({'left': '15%'})
 " vim-startify {{{
 let g:startify_custom_header = [
             \'',
-            \'          _____      _           _   _         __     ___            ',
+            \'',
+            \'',
+            \'           _____      _           _   _         __     ___           ',
             \'          | ____|_ __(_) ___     | \ | | ___  __\ \   / (_)_ __ ___  ',
             \'          |  _| | (__| |/ __|____|  \| |/ _ \/ _ \ \ / /| | -_ ` _ \ ',
             \'          | |___| |  | | (_|_____| |\  |  __/ (_) \ V / | | | | | | |',
@@ -423,7 +429,7 @@ let g:alchemist_tag_map = '<C-q>'
 let g:alchemist_tag_stack_map = '<C-w>'
 let g:alchemist_iex_term_size = 15
 let g:alchemist_iex_term_split = 'split'
-nmap tx :IEx 
+nmap gx :IEx 
 nmap mi :Mix 
 " }}}
 
@@ -838,7 +844,7 @@ let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
-let g:ale_linters = {'rust': ['cargo', 'rustc']}
+let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt']}
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
 nnoremap <C-l> :lopen<CR>
