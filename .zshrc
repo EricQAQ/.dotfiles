@@ -1,4 +1,5 @@
 # Path to your oh-my-zsh installation.
+# export PATH=$PATH:/bin:/usr/bin
 export ZSH=/Users/eric/.oh-my-zsh
 
 # let g:solarized_termcolors=16
@@ -50,12 +51,21 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract osx web-search urltools autojump brew colorize autoenv zsh-syntax-highlighting)
+plugins=(
+    git
+    extract
+    osx
+    web-search
+    urltools
+    autojump
+    brew
+    colorize
+    autoenv
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
 
 # User configuration
-
-# export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-# export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,12 +109,15 @@ export CARGO_HOME="$HOME/.cargo"
 
 export GOPATH="$HOME/go"
 
-export PATH=$(cat /etc/paths | xargs | tr " " :)
+# export PATH="$(cat /etc/paths | xargs | tr " " :)"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
+
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
-tic $TERM.ti
+# infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
+# tic $TERM.ti
 export http_proxy='127.0.0.1:1087'
 export https_proxy='127.0.0.1:1087'
 export ALL_PROXY='socks5://127.0.0.1:1086'
