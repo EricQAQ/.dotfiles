@@ -238,6 +238,7 @@ Plug 'docunext/closetag.vim'                            " 自动补全html/xml�
 Plug 'easymotion/vim-easymotion'                        " 快速跳转
 Plug 'airblade/vim-gitgutter'                           " 实时展示文件修改的行
 Plug 'Yggdroot/indentLine'                              " 缩进指示
+Plug 'Glench/Vim-Jinja2-Syntax'                         " Jinja支持
 
 call plug#end()
 
@@ -508,7 +509,7 @@ let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
 augroup ncm_preview
     autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
 augroup END
-inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-m> pumvisible() ? "\<C-p>" : "\<C-m>"
 " }}}
@@ -844,9 +845,14 @@ let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
-let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt']}
+let g:ale_linters = {
+\       'rust': ['cargo', 'rustc'],
+\       'go': ['go build', 'golint', 'go vet', 'gofmt']
+\ }
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
+" let g:ale_rust_rustc_options = '-Z no-trans'
+let g:ale_rust_rustc_options = ''
 nnoremap <C-l> :lopen<CR>
 " }}}
 
