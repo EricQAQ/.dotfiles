@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh installation.
-# export PATH=$PATH:/bin:/usr/bin
+# export PATH=$(cat /etc/paths | xargs | tr " " :)
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$PATH"
+# export MANPATH="/usr/local/man:$MANPATH"
 export ZSH=/Users/eric/.oh-my-zsh
 
 # let g:solarized_termcolors=16
@@ -51,19 +53,7 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    git
-    extract
-    osx
-    web-search
-    urltools
-    autojump
-    brew
-    colorize
-    autoenv
-    zsh-syntax-highlighting
-    zsh-autosuggestions
-)
+plugins=(git extract osx web-search urltools autojump brew colorize autoenv zsh-syntax-highlighting)
 
 # User configuration
 
@@ -108,10 +98,6 @@ export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/ru
 export CARGO_HOME="$HOME/.cargo"
 
 export GOPATH="$HOME/go"
-
-# export PATH="$(cat /etc/paths | xargs | tr " " :)"
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-export MANPATH="/usr/local/man:$MANPATH"
 
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
