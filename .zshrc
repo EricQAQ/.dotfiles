@@ -1,7 +1,5 @@
 # Path to your oh-my-zsh installation.
-# export PATH=$(cat /etc/paths | xargs | tr " " :)
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$PATH"
-# export MANPATH="/usr/local/man:$MANPATH"
+# export PATH=$PATH:/bin:/usr/bin
 export ZSH=/Users/eric/.oh-my-zsh
 
 # let g:solarized_termcolors=16
@@ -53,7 +51,17 @@ ZSH_THEME="erica"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git extract osx web-search urltools autojump brew colorize autoenv zsh-syntax-highlighting)
+plugins=(
+    git
+    extract
+    osx
+    web-search
+    urltools
+    autojump
+    brew
+    colorize
+    zsh-syntax-highlighting
+)
 
 # User configuration
 
@@ -99,6 +107,10 @@ export CARGO_HOME="$HOME/.cargo"
 
 export GOPATH="$HOME/go"
 
+# export PATH="$(cat /etc/paths | xargs | tr " " :)"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export MANPATH="/usr/local/man:$MANPATH"
+
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -109,4 +121,7 @@ export https_proxy='127.0.0.1:1087'
 export ALL_PROXY='socks5://127.0.0.1:1086'
 # export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
-source /usr/local/opt/autoenv/activate.sh
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi

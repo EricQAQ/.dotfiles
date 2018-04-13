@@ -9,7 +9,9 @@ HomeBrew:
 brew install golang
 brew install gotags
 brew install ctags
-brew install python
+brew install python     # 现在brew已经取消了python2.7, 自动安装3.6
+brew install pyenv      # 使用pyenv来管理python版本
+brew install pyenv-virtualenv
 brew install tmux
 brew install the_silver_searcher    # Ag用来加快全文搜索速度
 brew install autojump
@@ -23,20 +25,19 @@ brew install llvm --with-toolchain
 brew tap caskroom/fonts
 brew cask install font-hack-nerd-font
 brew install mpg123
+```
+默认设置python版本为3.6.5(因为部分插件需要使用python3.6)
 
-pip install neovim
-pip install virtualenv
-pip install jedi
-pip3 install --user neovim jedi psutil setproctitle
+```
+pyenv install 3.6.5
+pyenv install 2.7.14
+pyenv global 3.6.5
+```
+
+pip install --user neovim jedi psutil setproctitle virtualenv
 pip install pygments
 pip install NetEase-MusicBox
 pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
-```
-注意设置brew安装的python为默认python(替换掉mac系统自带的python):
-
-```
-brew link python
-ln -s /usr/local/bin/python2 /usr/local/bin/python
 ```
 
 ## 2. oh-my-zsh
