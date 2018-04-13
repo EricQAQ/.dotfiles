@@ -203,6 +203,7 @@ Plug 'terryma/vim-multiple-cursors'                     " 光标多选
 Plug 'rizzatti/dash.vim'                                " Dash支持
 Plug 'ekalinin/Dockerfile.vim'                          " dockerfile语法支持
 Plug 'cespare/vim-toml'                                 " toml语法支持
+Plug 'maralla/vim-toml-enhance', {'depends': 'cespare/vim-toml'}
 Plug 'solarnz/thrift.vim'                               " thrift语法支持
 Plug 'pearofducks/ansible-vim'                          " ansible语法支持
 Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
