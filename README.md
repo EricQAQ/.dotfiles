@@ -9,8 +9,8 @@ HomeBrew:
 brew install golang
 brew install gotags
 brew install ctags
-brew install python     # 现在brew已经取消了python2.7, 自动安装3.6
-brew install pyenv      # 使用pyenv来管理python版本
+# 现在brew已经取消了python2.7, 自动安装3.6, 所以使用pyenv来管理python版本
+brew install pyenv
 brew install pyenv-virtualenv
 brew install tmux
 brew install the_silver_searcher    # Ag用来加快全文搜索速度
@@ -32,11 +32,18 @@ brew install mpg123
 pyenv install 3.6.5
 pyenv install 2.7.14
 pyenv global 3.6.5
-```
+pyenv virtualenv 2.7.14 neovim2
+pyenv virtualenv 3.6.5 neovim3
 
-pip install --user neovim jedi psutil setproctitle virtualenv
-pip install pygments
-pip install NetEase-MusicBox
+pyenv activate neovim2
+pip install --user neovim jedi flake8
+pyenv deactivate
+
+pyenv activate neovim3
+pip install --user neovim jedi flake8
+pyenv deactivate
+
+pip install --user psutil setproctitle pygments
 pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
 ```
 
@@ -52,8 +59,8 @@ pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
 
   1. 使用dotfiles的`.zshrc`文件替换原有文件
   2. 把`.dotfiles/erica.zsh-theme`文件拷贝至`oh-my-zsh`源码的`theme`文件夹中, mac中的路径是`~/.oh-my-zsh/theme/`
-  3. 执行下面的命令 
-  
+  3. 执行下面的命令
+
         ```
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
         ```

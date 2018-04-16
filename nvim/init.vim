@@ -6,7 +6,9 @@ let t_Co = 256
 set mouse=a
 set laststatus=2
 
-let g:python_host_prog='/usr/local/bin/python'
+" 使用pyenv下的python环境
+let g:python_host_prog = $HOME . "/.pyenv/versions/neovim2/bin/python"
+let g:python3_host_prog = $HOME . "/.pyenv/versions/neovim3/bin/python"
 
 " 设置leader键
 let mapleader=";"
