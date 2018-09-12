@@ -1,14 +1,13 @@
 " 显式设置当前脚本的编码方式以支持多字节字符
 scriptencoding utf-8
 set encoding=utf-8
+filetype on
 
 let t_Co = 256
 set mouse=a
 set laststatus=2
 
-" 使用pyenv下的python环境
-let g:python_host_prog = $HOME . "/.pyenv/versions/neovim2/bin/python"
-let g:python3_host_prog = $HOME . "/.pyenv/versions/neovim3/bin/python"
+let g:python_host_prog='/usr/local/bin/python'
 
 " 设置leader键
 let mapleader=";"
@@ -204,22 +203,26 @@ Plug 'itchyny/vim-cursorword'                           " cursor
 Plug 'terryma/vim-multiple-cursors'                     " 光标多选
 Plug 'rizzatti/dash.vim'                                " Dash支持
 Plug 'ekalinin/Dockerfile.vim'                          " dockerfile语法支持
-Plug 'cespare/vim-toml'                                 " toml语法支持
-Plug 'maralla/vim-toml-enhance', {'depends': 'cespare/vim-toml'}
+Plug 'cespare/vim-toml' | Plug 'maralla/vim-toml-enhance' " toml语法支持
 Plug 'solarnz/thrift.vim'                               " thrift语法支持
 Plug 'pearofducks/ansible-vim'                          " ansible语法支持
 Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
 Plug 'slashmili/alchemist.vim'                          " elixir支持
-Plug 'Rip-Rip/clang_complete'
 Plug 'kh3phr3n/python-syntax'                           " python语法高亮支持
 Plug 'davidhalter/jedi-vim'                             " python代码跳转
 Plug 'rust-lang/rust.vim'                               " Rust支持
 Plug 'racer-rust/vim-racer'                             " Rust自动补全, racer
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }     " golang支持
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-Plug 'roxma/ncm-clang'                                  " C异步补全
-Plug 'roxma/nvim-cm-racer'                              " rust异步补全
-Plug 'roxma/nvim-completion-manager'                    " 异步补全插件
+Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'ncm2/ncm2'                                        " 异步补全插件
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
+Plug 'yuki-ycino/ncm2-dictionary'
+Plug 'ncm2/ncm2-pyclang'                                " c异步补全
+Plug 'ncm2/ncm2-racer'                                  " rust异步补全
+Plug 'ncm2/ncm2-go'                                     " go异步补全
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
 Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
 " 树形文件查看插件
@@ -241,7 +244,6 @@ Plug 'docunext/closetag.vim'                            " 自动补全html/xml�
 Plug 'easymotion/vim-easymotion'                        " 快速跳转
 Plug 'airblade/vim-gitgutter'                           " 实时展示文件修改的行
 Plug 'Yggdroot/indentLine'                              " 缩进指示
-Plug 'Glench/Vim-Jinja2-Syntax'                         " Jinja支持
 
 call plug#end()
 
@@ -413,6 +415,7 @@ let g:startify_list_order = [
 " }}}
 
 " vim-multiple-cursors {{{
+let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_next_key='<C-j>'
 let g:multi_cursor_prev_key='<C-k>'
 let g:multi_cursor_skip_key='<C-x>'
@@ -435,11 +438,6 @@ let g:alchemist_iex_term_size = 15
 let g:alchemist_iex_term_split = 'split'
 nmap gx :IEx 
 nmap mi :Mix 
-" }}}
-
-" clang_complete {{{
-let g:clang_library_path = '/usr/local/Cellar/llvm/5.0.1/lib'
-au FileType c nmap <C-w> :tab split<CR>:call g:ClangGotoDeclaration()<CR>
 " }}}
 
 " python-syntax {{{
@@ -505,16 +503,21 @@ au FileType go nmap gt <Plug>(go-test)
 au FileType go nmap gc <Plug>(go-coverage)
 " }}}
 
-" nvim-completion-manager {{{
-let g:cm_completeopt = 'menu,menuone,noinsert,noselect,preview'
-" Close the prevew window automatically on InsertLeave
-" https://github.com/davidhalter/jedi-vim/blob/eba90e615d73020365d43495fca349e5a2d4f995/ftplugin/python/jedi.vim#L44
-augroup ncm_preview
-    autocmd! InsertLeave <buffer> if pumvisible() == 0|pclose|endif
-augroup END
-inoremap <expr> <CR> (pumvisible() ? "\<C-y>\<CR>" : "\<CR>")
+" ncm2 {{{
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" IMPORTANTE: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+" set shortmess+=c
+inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-m> pumvisible() ? "\<C-p>" : "\<C-m>"
+" }}}
+
+" ncm2-pyclang {{{
+" path to directory where libclang.so can be found
+let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/5.0.1/lib'
+autocmd FileType c,cpp nnoremap <buffer> <C-w> :<c-u>call ncm2_pyclang#goto_declaration()<cr>
 " }}}
 
 " vim-devicons {{{
@@ -525,7 +528,7 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
 " }}}
 
 " nerdtree 配置 {{{
-map <C-n> :NERDTreeToggle<CR>
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 
 let NERDTreeIgnore                    = ['.sass-cache$', 'tmp$', '\.pyc$', '__pycache__', '\.DS_Store', '\.cache', '\.idea', '\.o$']
 let NERDTreeSortOrder                 = ['\/$', '*']
@@ -848,14 +851,15 @@ let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
-let g:ale_linters = {
-\       'rust': ['cargo', 'rustc'],
-\       'go': ['go build', 'golint', 'go vet', 'gofmt']
-\ }
+let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt']}
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
-" let g:ale_rust_rustc_options = '-Z no-trans'
-let g:ale_rust_rustc_options = ''
+" 关闭ale自动检查语法(golang项目在使用swig封装之后, 开启自动检查会很卡..)
+" let g:ale_lint_on_text_changed = 0
+" let g:ale_lint_on_enter = 0
+" let g:ale_lint_on_save = 0
+" let g:ale_lint_on_filetype_changed = 0
+" nnoremap <Space>b :ALELint<CR>
 nnoremap <C-l> :lopen<CR>
 " }}}
 
