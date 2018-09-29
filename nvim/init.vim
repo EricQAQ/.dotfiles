@@ -221,8 +221,11 @@ Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
 Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-pyclang'                                " c异步补全
+Plug 'ncm2/ncm2-jedi'                                   " python异步补全
 Plug 'ncm2/ncm2-racer'                                  " rust异步补全
 Plug 'ncm2/ncm2-go'                                     " go异步补全
+Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'           " vimscript异步补全
+Plug 'ncm2/ncm2-path'                                   " 路径补全
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
 Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
 " 树形文件查看插件
