@@ -303,8 +303,9 @@ set completefunc=emoji#complete
 " }}}
 
 " marshak.vim {{{
+let g:trans_command = "trans -u chrome"
 let g:trans_source_lang = 'en'
-let g:trans_target_lang = 'zh'
+let g:trans_target_lang = 'zh-CN'
 
 function! TransToEnglish(text)
     let l:quatation_text = "\"" . a:text . "\""
@@ -495,7 +496,7 @@ let g:go_highlight_build_constraints = 1
 let g:go_list_type = "quickfix"
 
 " go run相关配置
-au FileType go nnoremap <C-w> :<C-U>call go#def#Jump("tab")<CR>
+au FileType go nmap <C-w> <Plug>(go-def-tab)
 au FileType go nmap gf :GoFmt<CR>
 au FileType go nmap gt <Plug>(go-run-tab)
 au FileType go nmap gs <Plug>(go-run-split)
@@ -854,7 +855,7 @@ let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
-let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt']}
+let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt', 'gopls']}
 let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
 " 关闭ale自动检查语法(golang项目在使用swig封装之后, 开启自动检查会很卡..)
