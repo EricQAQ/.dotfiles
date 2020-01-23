@@ -310,8 +310,9 @@ set completefunc=emoji#complete
 " }}}
 
 " marshak.vim {{{
+let g:trans_command = "trans -u chrome"
 let g:trans_source_lang = 'en'
-let g:trans_target_lang = 'zh'
+let g:trans_target_lang = 'zh-CN'
 
 function! TransToEnglish(text)
     let l:quatation_text = "\"" . a:text . "\""
@@ -859,7 +860,7 @@ let g:ale_linters = {
 \   'go': ['go build', 'golint', 'go vet', 'gofmt'],
 \   'javascript': ['eslint'],
 \ }
-let g:ale_rust_ignore_error_codes = []
+let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
 let g:ale_list_window_size = 6
 " 关闭ale自动检查语法(golang项目在使用swig封装之后, 开启自动检查会很卡..)
 " let g:ale_lint_on_text_changed = 0
