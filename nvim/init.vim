@@ -177,6 +177,7 @@ autocmd VimEnter * call TabPos_Initialize()
 
 " vim下查看man page
 nmap <Space>m :Man 
+com! FormatJSON %!python -m json.tool
 
 call plug#begin()
 " Google Material 主题
@@ -206,14 +207,15 @@ Plug 'ekalinin/Dockerfile.vim'                          " dockerfile语法支持
 Plug 'cespare/vim-toml' | Plug 'maralla/vim-toml-enhance' " toml语法支持
 Plug 'solarnz/thrift.vim'                               " thrift语法支持
 Plug 'pearofducks/ansible-vim'                          " ansible语法支持
-Plug 'elixir-lang/vim-elixir', { 'do': './install.sh' } " elixir支持
-Plug 'slashmili/alchemist.vim'                          " elixir支持
 Plug 'kh3phr3n/python-syntax'                           " python语法高亮支持
 Plug 'davidhalter/jedi-vim'                             " python代码跳转
 Plug 'rust-lang/rust.vim'                               " Rust支持
 Plug 'racer-rust/vim-racer'                             " Rust自动补全, racer
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }     " golang支持
-Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }     " golang支持
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'ncm2/ncm2'                                        " 异步补全插件
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
@@ -223,9 +225,14 @@ Plug 'yuki-ycino/ncm2-dictionary'
 Plug 'ncm2/ncm2-pyclang'                                " c异步补全
 Plug 'ncm2/ncm2-jedi'                                   " python异步补全
 Plug 'ncm2/ncm2-racer'                                  " rust异步补全
-Plug 'ncm2/ncm2-go'                                     " go异步补全
+Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}           " js异步补全
+Plug 'ncm2/ncm2-cssomni'                                " css异步补全
+Plug 'ncm2/ncm2-html-subscope'                          " html异步补全相关
 Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'           " vimscript异步补全
 Plug 'ncm2/ncm2-path'                                   " 路径补全
+Plug 'mattn/emmet-vim'                                  " css 和 html 工作流
+Plug 'othree/html5.vim'                                 " html5相关
+Plug 'alvan/vim-closetag'                               " html标签补全
 Plug 'itchyny/lightline.vim'                            " 轻量级状态栏优化插件
 Plug 'ctrlpvim/ctrlp.vim'                               " 查找文件名, 支持模糊匹配
 " 树形文件查看插件
@@ -236,17 +243,17 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight',     { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'                               " 状态栏支持显示当前git分支
 Plug 'majutsushi/tagbar'                                " 显示文件中的类、函数、变量
 Plug 'maximbaz/lightline-ale'                           " lightline的ale插件, 用于展示lint信息
-Plug 'w0rp/ale'                                         " 异步语法检查
+Plug 'dense-analysis/ale'                                         " 异步语法检查
 Plug 'luochen1990/rainbow'                              " 括号配对显示
 Plug 'lilydjwg/colorizer'                               " 颜色显示器
 Plug 'troydm/zoomwintab.vim'                            " 放大vim中的一个窗口
 Plug 'scrooloose/nerdcommenter'                         " 快速注释
 Plug 'Raimondi/delimitMate'                             " 自动补全单引号，双引号等
 " Plug 'tpope/vim-surround'                               " 括号编辑
-Plug 'docunext/closetag.vim'                            " 自动补全html/xml标签
 Plug 'easymotion/vim-easymotion'                        " 快速跳转
 Plug 'airblade/vim-gitgutter'                           " 实时展示文件修改的行
 Plug 'Yggdroot/indentLine'                              " 缩进指示
+Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -433,16 +440,6 @@ nmap <silent> <leader>t <Plug>DashSearch
 nmap <silent> <leader>y <Plug>DashGlobalSearch
 " }}}
 
-" vim-elixir {{{
-let g:alchemist#elixir_erlang_src = "~/elixir_otp"
-let g:alchemist_tag_map = '<C-q>'
-let g:alchemist_tag_stack_map = '<C-w>'
-let g:alchemist_iex_term_size = 15
-let g:alchemist_iex_term_split = 'split'
-nmap gx :IEx 
-nmap mi :Mix 
-" }}}
-
 " python-syntax {{{
 let python_self_cls_highlight = 1
 let python_no_parameter_highlight = 1
@@ -493,9 +490,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 let g:go_list_type = "quickfix"
+" let g:go_def_mode = "godef"
 
 " go run相关配置
-au FileType go nnoremap <C-w> :<C-U>call go#def#Jump("tab")<CR>
+au FileType go nmap <C-w> <Plug>(go-def-tab)
 au FileType go nmap gf :GoFmt<CR>
 au FileType go nmap gt <Plug>(go-run-tab)
 au FileType go nmap gs <Plug>(go-run-split)
@@ -504,6 +502,17 @@ au FileType go nmap gv <Plug>(go-run-vertical)
 au FileType go nmap gb <Plug>(go-build)
 au FileType go nmap gt <Plug>(go-test)
 au FileType go nmap gc <Plug>(go-coverage)
+" }}}
+
+" autozimu/LanguageClient-neovim {{{
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'go': ['gopls'],
+    \ }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <C-w> :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " }}}
 
 " ncm2 {{{
@@ -521,6 +530,20 @@ inoremap <expr> <C-m> pumvisible() ? "\<C-p>" : "\<C-m>"
 " path to directory where libclang.so can be found
 let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/5.0.1/lib'
 autocmd FileType c,cpp nnoremap <buffer> <C-w> :<c-u>call ncm2_pyclang#goto_declaration()<cr>
+" }}}
+
+" vim-closetag {{{
+let g:closetag_filenames = '*.html,*xhtml,*phtml'
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+let g:closetag_filetypes = 'html,xhtml,phtml'
+let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
+let g:closetag_shortcut = '>'
+let g:closetag_close_shortcut = '<leader>>'
 " }}}
 
 " vim-devicons {{{
@@ -819,32 +842,9 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-
-let g:tagbar_type_elixir = {
-    \ 'ctagstype': 'elixir',
-    \ 'kinds': [
-        \ 'f:functions:0:0',
-        \ 'c:callbacks:0:0',
-        \ 'd:delegates:0:0',
-        \ 'e:exceptions:0:0',
-        \ 'i:implementations:0:0',
-        \ 'a:macros:0:0',
-        \ 'o:operators:0:0',
-        \ 'm:modules:0:0',
-        \ 'p:protocols:0:0',
-        \ 'r:records:0:0'
-    \ ],
-    \ 'sro': '.',
-    \ 'kind2scope': {
-        \ 'm': 'modules'
-    \ },
-    \ 'scope2kind': {
-        \ 'modules': 'm'
-    \ }
-\ }
 " }}}
 
-" w0rp/ale {{{
+" dense-analysis/ale {{{
 let g:ale_sign_column_always = 1    " 保持侧边栏可见
 let g:ale_set_highlights = 1
 let g:ale_sign_error = ''            " 错误符号
@@ -854,8 +854,12 @@ let g:ale_sign_style_warning = ''    " 风格警告符号
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
-let g:ale_linters = {'rust': ['cargo', 'rustc'], 'go': ['go build', 'golint', 'go vet', 'gofmt']}
-let g:ale_rust_ignore_error_codes = ['E0432', 'E0433']
+let g:ale_linters = {
+\   'rust': ['cargo'],
+\   'go': ['go build', 'golint', 'go vet', 'gofmt'],
+\   'javascript': ['eslint'],
+\ }
+let g:ale_rust_ignore_error_codes = []
 let g:ale_list_window_size = 6
 " 关闭ale自动检查语法(golang项目在使用swig封装之后, 开启自动检查会很卡..)
 " let g:ale_lint_on_text_changed = 0
@@ -911,6 +915,10 @@ let g:NERDCustomDelimiters = {
     \ 'c': { 'left': '//' },
     \ 'go': { 'left': '//'},
 \ }
+" }}}
+
+" Raimondi/delimitMate {{{
+let delimitMate_excluded_ft = "html"
 " }}}
 
 " vim-easymotion {{{
