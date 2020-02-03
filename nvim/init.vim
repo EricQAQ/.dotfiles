@@ -7,7 +7,8 @@ let t_Co = 256
 set mouse=a
 set laststatus=2
 
-let g:python_host_prog='/usr/local/bin/python'
+let g:python_host_prog=$HOME . "/.pyenv/versions/neovim2/bin/python"
+let g:python3_host_prog=$HOME . "/.pyenv/versions/neovim3/bin/python"
 
 " 设置leader键
 let mapleader=";"
@@ -509,6 +510,7 @@ au FileType go nmap gc <Plug>(go-coverage)
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ 'go': ['gopls'],
+    \ 'python': ['pyls'],
     \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>

@@ -26,25 +26,27 @@ brew tap caskroom/fonts
 brew cask install font-hack-nerd-font
 brew install mpg123
 ```
-默认设置python版本为3.6.5(因为部分插件需要使用python3.6)
+默认设置python版本为3.7.5(因为部分插件需要使用python3.6)
 
 ```
-pyenv install 3.6.5
+pyenv install 3.7.5
 pyenv install 2.7.14
-pyenv global 3.6.5
+pyenv global 3.7.5
 pyenv virtualenv 2.7.14 neovim2
-pyenv virtualenv 3.6.5 neovim3
+pyenv virtualenv 3.7.5 neovim3
 
 pyenv activate neovim2
-pip install --user neovim jedi flake8
+pip install neovim jedi flake8
+pip install 'python-language-server[all]'
 pyenv deactivate
 
 pyenv activate neovim3
-pip install --user neovim jedi flake8
+pip install neovim jedi flake8
+pip install 'python-language-server[all]'
 pyenv deactivate
 
-pip install --user psutil setproctitle pygments
-pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
+# pip install --user psutil setproctitle pygments
+# pip install "requests[socks]"   # 开启的ALL_PROXY是sock5代理
 ```
 
 ## 2. oh-my-zsh
